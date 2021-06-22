@@ -1,0 +1,15 @@
+<ul class="list-group">
+  <li [class]="getAllBrandClass()" 
+      routerLink="/cars"
+      (click)="dischargeCurrentBrand()" >
+    Tüm Araçlar
+  </li>
+  <li *ngFor="let brand of brands" 
+      (click)="setCurrentBrand(brand)" 
+      [class]="getCurrentBrandClass(brand)" 
+      routerLink="/cars/brand/{{brand.brandId}}">
+      {{brand.brandName}}
+  </li>
+</ul>
+
+<h5 *ngIf="currentBrand">{{currentBrand.brandName}} seçildi.</h5>

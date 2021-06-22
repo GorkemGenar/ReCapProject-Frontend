@@ -1,0 +1,13 @@
+<ul class="list-group">
+  <li [class]="getAllColorClass()" 
+      routerLink="/cars"
+      (click)="dischargeCurrentColor()" >
+    Tüm Renkler
+  </li>
+  <li *ngFor="let color of Colors" 
+      (click)="setCurrentColor(color)"  
+      [class]="getCurrentColorClass(color)" 
+      routerLink="/cars/color/{{color.colorId}}">
+      {{color.colorName}}
+  </li>
+</ul>

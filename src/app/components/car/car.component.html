@@ -1,0 +1,34 @@
+<div *ngIf="dataLoaded==false" class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+</div>
+<table class="table">
+    <thead *ngIf="dataLoaded==true">
+        <tr>
+            <th scope="col">Car ID</th>
+            <th scope="col">Car Name</th>
+            <th scope="col">Brand Name</th>
+            <th scope="col">Color</th>
+            <th scope="col">Model Year</th>
+            <th scope="col">Daily Price</th>
+            <th scope="col">Description</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let car of cars">
+            <td>{{car.carId}}</td>
+            <td>{{car.carName}}</td>
+            <td>{{car.brandName}}</td>
+            <td>{{car.colorName}}</td>
+            <td>{{car.modelYear}}</td>
+            <td>{{car.dailyPrice}}</td>
+            <td>{{car.description}}</td>
+            <td>
+                <a  class="btn btn-primary" 
+                    routerLink="/cars/car-details/{{car.carId}}">
+                    Detay
+                </a>
+            </td>
+        </tr>
+    </tbody>    
+</table>
