@@ -4,7 +4,6 @@ import { Car } from 'src/app/models/car';
 import { CarDetail } from 'src/app/models/cardetails';
 import { CarImage } from 'src/app/models/carimage';
 import { CarService } from 'src/app/services/car.service';
-import { CarimagesService } from 'src/app/services/carimages.service';
 
 @Component({
   selector: 'app-cardetails',
