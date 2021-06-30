@@ -7,7 +7,7 @@
     </div>
     <div class="carousel-inner">
       <div *ngFor="let carImage of carImages ; index as i; first as firstImage" [ngClass]="{ active: firstImage }" class="carousel-item active" data-bs-interval="2000">
-        <img src="{{imgUrl}}{{carImage.imagePath}}" class="d-block w-100" alt="...">
+        <img src="{{imgUrl}}{{carImage.imagePath}}" class="d-block w-100" style="height: 350px;" alt="...">
       </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
@@ -41,6 +41,14 @@
           <tr>
             <th>Açıklama</th>
             <td>{{ car.description }}</td>
+          </tr>
+          <tr>
+            <th>İşlem</th>
+            <td>
+              <button class="btn btn-warning" (click)="addToCart(car)" type="button">
+                Kirala
+              </button>
+            </td>
           </tr>
       </thead>
     </table>

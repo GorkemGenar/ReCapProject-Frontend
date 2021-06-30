@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Car } from 'src/app/models/car';
+import { ToastrService } from 'ngx-toastr';
 import { CarDetail } from 'src/app/models/cardetails';
 import { CarImage } from 'src/app/models/carimage';
 import { CarService } from 'src/app/services/car.service';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-cardetails',
@@ -17,7 +18,10 @@ export class CardetailsComponent implements OnInit {
   carId:number;
   imgUrl:string="https://localhost:44363/images/"
 
-  constructor(private carService:CarService, private activatedRoute:ActivatedRoute) { }
+  constructor(private carService:CarService, 
+              private activatedRoute:ActivatedRoute, 
+              private toastrService:ToastrService,
+              private cartService:CartService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -48,6 +52,16 @@ export class CardetailsComponent implements OnInit {
       return 'active';
     } else {
       return '';
+    }
+  }
+
+  addToCart(car:CarDetail){
+    if(car.carId==1){
+      this.toastrService.error("Bu araç kiralanamaz", car.brandName)
+    }
+    else{
+      this.cartService.addToCart(car);
+      this.toastrService.success("aracı kiralama işlemi için sepete eklendi.", car.brandName);
     }
   }
 
