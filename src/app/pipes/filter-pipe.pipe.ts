@@ -6,9 +6,9 @@ import { Car } from '../models/car';
 })
 export class FilterPipePipe implements PipeTransform {
 
-  transform(value: Car[], filterText: string): Car[] {
-    filterText = filterText ? filterText.toLocaleLowerCase() : "" // Arama kutusuna filterText girilmişse küçük harf yap, Yoksa boş geç.
-    return filterText ? value.filter((b:Car) => b.brandName.toLocaleLowerCase().indexOf(filterText) !== -1): value;
+  transform(value: Car[], filterTextOfColor: string): Car[] {
+    filterTextOfColor = filterTextOfColor ? filterTextOfColor.toLocaleLowerCase() : "" // Arama kutusuna filterText girilmişse küçük harf yap, Yoksa boş geç.
+    return filterTextOfColor ? value.filter((b:Car) => b.brandName.toLocaleLowerCase().indexOf(filterTextOfColor) !== -1): value;
   }
 
 }

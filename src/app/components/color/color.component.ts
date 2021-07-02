@@ -13,14 +13,14 @@ export class ColorComponent implements OnInit {
   currentColor:Color;
   emptyColor:Color;
 
-  constructor(private colorServie:ColorService) { }
+  constructor(private colorService:ColorService) { }
 
   ngOnInit(): void {
     this.getColors();
   }
 
   getColors(){
-    this.colorServie.getColors().subscribe(response =>{
+    this.colorService.getColors().subscribe(response =>{
       this.Colors = response.data;
     })
   }

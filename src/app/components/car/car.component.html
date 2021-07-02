@@ -1,29 +1,48 @@
 <div *ngIf="dataLoaded==false" class="spinner-border text-primary" role="status">
     <span class="visually-hidden">Loading...</span>
 </div>
-
 <div class="row">
-    <div class="col-3">
-        <select class="form-select" aria-label="Default select example">
-            <option value="1">One</option>
+    <div class="col-md-5">
+        <select class="form-select" id="brandselect" [(ngModel)]="currentBrandId">
+            <option [ngValue]="undefined" disabled selected> --- Choose a Brand ---
+            </option>
+            <option *ngFor="let brand of brands"
+                    [value]="brand.brandId"
+                    [selected]="setCurrentBrand(brand.brandId)"> {{ brand.brandName }}
+            </option>
         </select>
     </div>
-    <div class="col-3">
-        <select class="form-select" aria-label="Default select example">
-            <option value="1">One</option>
+    <div class="col-md-5">
+        <select class="form-select" id="colorselect" [(ngModel)]="currentColorId">
+            <option [ngValue]="undefined" disabled selected> --- Choose a Color ---
+            </option>
+            <option *ngFor="let color of colors"
+                    [value]="color.colorId"
+                    [selected]="setCurrentColor(color.colorId)"> {{ color.colorName }}
+            </option>
         </select>
     </div>
-    <div class="col-5">
-        <button type="button" class="btn btn-primary"><i class="bi bi-search"></i></button>
-    </div>  
-</div>
-
-<div class="mb-3">
-    <label for="filterText" class="form-label">Find:</label>
-    <input type="text" [(ngModel)]="filterText" class="form-control" id="filterText" placeholder="Type a Car Name:">
-</div>
-<div *ngIf="filterText" class="alert alert-success">
-    {{filterText}} aradınız.
+    <div class="col-md-1" *ngIf="!currentBrandId && currentColorId">
+        <button class="btn btn-success"
+                routerLink="/cars/color/{{ currentColorId }}"> Filter
+        </button>
+    </div>
+    <div class="col-md-1" *ngIf="!currentColorId && currentBrandId">
+        <button class="btn btn-success"
+                routerLink="/cars/brand/{{ currentBrandId }}"> Filter
+        </button>
+    </div>
+    <div class="col-md-1" *ngIf="!currentColorId && !currentBrandId">
+        <button (click)="getCarForBrandAndColor(currentBrandId,currentColorId)" class="btn btn-success"> Filter </button>
+    </div>
+    <div class="col-md-1" *ngIf="currentColorId && currentBrandId">
+        <button class="btn btn-success"
+                routerLink="/cars/brand/{{ currentBrandId }}/color/{{ currentColorId }}"> Filter
+        </button>
+    </div>
+    <div class="col-md-1 ps-0">
+        <button class="btn btn-warning" routerLink="/cars">Clear</button>
+    </div>
 </div>
 <table class="table">
     <thead *ngIf="dataLoaded==true">
