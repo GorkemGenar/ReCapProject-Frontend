@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { CarDetail } from 'src/app/models/cardetails';
-import { CartItem } from 'src/app/models/cartitem';
-import { CartService } from 'src/app/services/cart.service';
+import { RentalItem } from 'src/app/models/rentitem';
+import { RentalService } from 'src/app/services/rental.service';
 
 @Component({
   selector: 'app-cart-summary',
@@ -11,20 +10,18 @@ import { CartService } from 'src/app/services/cart.service';
 })
 export class CartSummaryComponent implements OnInit {
 
-  cartItems:CartItem[] = []
+  cartItems:RentalItem[] = []
   
-  constructor(private cartService:CartService, private toastrService:ToastrService) { }
+  constructor(private rentalService:RentalService, private toastrService:ToastrService) { }
 
   ngOnInit(): void {
     this.getCart();
   }
 
   getCart(){
-    this.cartItems = this.cartService.list();
+    this.cartItems = this.rentalService.list();
   }
 
-  removeFromCart(car:CarDetail){
-    this.cartService.removeFromCart(car);
-    this.toastrService.warning("Araç sepetten kaldırıldı");
+  removeFromCart(){
   }
 }

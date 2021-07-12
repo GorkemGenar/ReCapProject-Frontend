@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-md-5">
         <select class="form-select" id="brandselect" [(ngModel)]="currentBrandId">
-            <option [ngValue]="undefined" disabled selected> --- Choose a Brand ---
+            <option [ngValue]="undefined" disabled selected> Select a Brand
             </option>
             <option *ngFor="let brand of brands"
                     [value]="brand.brandId"
@@ -14,7 +14,7 @@
     </div>
     <div class="col-md-5">
         <select class="form-select" id="colorselect" [(ngModel)]="currentColorId">
-            <option [ngValue]="undefined" disabled selected> --- Choose a Color ---
+            <option [ngValue]="undefined" disabled selected> Select a Color
             </option>
             <option *ngFor="let color of colors"
                     [value]="color.colorId"

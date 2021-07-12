@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Car } from 'src/app/models/car';
 import { CarDetail } from 'src/app/models/cardetails';
 import { CarImage } from 'src/app/models/carimage';
 import { CarService } from 'src/app/services/car.service';
-import { CartService } from 'src/app/services/cart.service';
+import { RentalService } from 'src/app/services/rental.service';
 
 @Component({
   selector: 'app-cardetails',
@@ -15,13 +16,16 @@ export class CardetailsComponent implements OnInit {
 
   carDetails:CarDetail[]=[];
   carImages:CarImage[];
+  imgUrl:string="https://localhost:44363/images/";  
   carId:number;
-  imgUrl:string="https://localhost:44363/images/"
+  rentDate:Date;
+  returnDate:Date;
+  customerId:number = 1;
 
   constructor(private carService:CarService, 
               private activatedRoute:ActivatedRoute, 
               private toastrService:ToastrService,
-              private cartService:CartService) { }
+              private rentalService:RentalService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -39,7 +43,7 @@ export class CardetailsComponent implements OnInit {
     })
   }
 
-  getCurrentImageClass(image: CarImage) {
+  getCurrentImageClass(image: CarImage){
     if (image == this.carImages[0]) {
       return 'carousel-item active';
     } else {
@@ -47,7 +51,7 @@ export class CardetailsComponent implements OnInit {
     }
   }
 
-  getButtonClass(image: CarImage) {
+  getButtonClass(image: CarImage){
     if (image == this.carImages[0]) {
       return 'active';
     } else {
@@ -55,14 +59,6 @@ export class CardetailsComponent implements OnInit {
     }
   }
 
-  addToCart(car:CarDetail){
-    if(car.carId==1){
-      this.toastrService.error("Bu araç kiralanamaz", car.brandName)
-    }
-    else{
-      this.cartService.addToCart(car);
-      this.toastrService.success("aracı kiralama işlemi için sepete eklendi.", car.brandName);
-    }
+  addToRental(){
   }
-
 }

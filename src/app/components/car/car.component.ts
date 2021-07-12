@@ -13,10 +13,11 @@ import { ColorService } from 'src/app/services/color.service';
   selector: 'app-car',
   templateUrl: './car.component.html',
   styleUrls: ['./car.component.css']
+
 })
 export class CarComponent implements OnInit {
 
-  cars: Car[];
+  cars: Car[] = [];
   carDetail:CarDetail;
   currentCar: Car;
   imgUrl ="https://localhost:44320/Images/"
@@ -27,12 +28,14 @@ export class CarComponent implements OnInit {
   brands:Brand[]
   currentBrandId:number;
   currentColorId:number;
-  
+
+  myDate = Date();
+
   constructor(private carService:CarService, 
               private activatedRoute:ActivatedRoute, 
               private colorService:ColorService, 
               private brandService:BrandService,
-              private toastrService:ToastrService) { }
+              private toastrService:ToastrService) {}
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -58,8 +61,6 @@ export class CarComponent implements OnInit {
         this.getColorForFilter();
         this.getBrandForFilter();
       }
-      
-    console.log(params);  
     })  
   }
 

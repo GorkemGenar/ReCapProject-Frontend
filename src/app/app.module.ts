@@ -18,6 +18,8 @@ import { FilterPipePipe } from './pipes/filter-pipe.pipe';
 
 import { ToastrModule } from 'ngx-toastr';
 import { CartSummaryComponent } from './components/cart-summary/cart-summary.component';
+import { DatePipe } from '@angular/common';
+import { PaymentComponent } from './components/payment/payment.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { CartSummaryComponent } from './components/cart-summary/cart-summary.com
     CardetailsComponent,
     VatAddedPipe,
     FilterPipePipe,
-    CartSummaryComponent
+    CartSummaryComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +46,7 @@ import { CartSummaryComponent } from './components/cart-summary/cart-summary.com
       positionClass:"toast-bottom-right"
     })
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

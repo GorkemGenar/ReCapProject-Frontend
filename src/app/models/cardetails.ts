@@ -9,4 +9,5 @@ export interface CarDetail{
   modelYear: number;
   description: string;
   carImage: CarImage[];
+  status?:boolean;
 }
