@@ -47,7 +47,7 @@ export class RentalComponent implements OnInit {
     if(result){
       if(this.rentDate == null || this.returnDate == null)
       {
-        this.toastrService.error("Kiralama veya Dönüş tarihi boş olamaz.")
+        this.toastrService.error("Kiralama veya dönüş tarihi boş olamaz.")
       }
       else{
         if(result.returnDate > this.rentDate){
@@ -58,6 +58,15 @@ export class RentalComponent implements OnInit {
           this.router.navigate(["/payment"]);
         }
       }
+    }
+    else{
+      if(this.rentDate == null || this.returnDate == null){
+        this.toastrService.error("Kiralama veya dönüş tarihi boş olamaz.")
+      }
+      else{
+        this.toastrService.info("Ödeme sayfasına yönlendiriliyor...")
+        this.router.navigate(["/payment"]);
+      }      
     }
     console.log(this.rentDate);
     console.log(this.returnDate);

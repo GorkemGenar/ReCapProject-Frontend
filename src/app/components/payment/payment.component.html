@@ -1,3 +1,19 @@
-<div class="input-group mb-3">
-    <input [(ngModel)]="" class="form-control" type="text" placeholder="Return Date">
+<div class="container">
+    <div class="form-floating mb-3">
+        <input [(ngModel)]=userId class="form-control w-50" id="floatingInput" placeholder="User Id">
+        <label for="floatingInput">User Id</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input [(ngModel)]="cardNumber" class="form-control w-50" id="floatingInput" placeholder="Card Number">
+        <label for="floatingInput">Card Number</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input [(ngModel)]="expirationDate" class="form-control w-50" id="floatingPassword" placeholder="Expiration Date">
+        <label for="floatingPassword">Expiration Date</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input [(ngModel)]="cvv" class="form-control w-50" id="floatingPassword" placeholder="Cvv">
+        <label for="floatingPassword">Cvv</label>
+    </div>
+    <button (click)="checkTheCreditCard()" type="button" class="btn btn-primary">Ödemeyi Tamamla</button>
 </div>
