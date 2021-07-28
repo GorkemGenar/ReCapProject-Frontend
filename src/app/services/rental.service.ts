@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { ListResponseModel } from '../models/listReponseModel';
 import { Rental } from '../models/rental';
 import { RentalItems } from '../models/rentalitems';
@@ -21,9 +22,9 @@ export class RentalService {
     return this.httpClient.get<ListResponseModel<Rental>>(newPath);
   }
 
-  addRental(rental:Rental){
+  addRental(rental:Rental):Observable<Rental>{
     let newPath = this.apiUrl + 'rentals/add'
-    this.httpClient.post(newPath,rental).subscribe()
+    return this.httpClient.post<Rental>(newPath,rental).pipe(catchError(this.handleError));
   }
 
   removeFromRental(rental:RentalItem){
@@ -32,5 +33,9 @@ export class RentalService {
 
   list(){
     return RentalItems;
+  }
+
+  handleError(error: HttpErrorResponse) { // Bu method dönen hataları yakalamak için
+    return throwError(error);             // *(1) Kullanılacağı metodda .pipe() ile eklenir
   }
 }

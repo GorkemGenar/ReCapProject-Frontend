@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Car } from 'src/app/models/car';
 import { CarDetail } from 'src/app/models/cardetails';
 import { CarImage } from 'src/app/models/carimage';
+import { Rental } from 'src/app/models/rental';
 import { CarService } from 'src/app/services/car.service';
 import { RentalService } from 'src/app/services/rental.service';
 
@@ -18,22 +19,35 @@ export class CardetailsComponent implements OnInit {
   carImages:CarImage[];
   imgUrl:string="https://localhost:44363/images/";  
   carId:number;
+  rentals:Rental[]=[];
+  dataLoaded = false;
+  result:Rental;
   rentDate:Date;
   returnDate:Date;
   customerId:number = 1;
+  dateStatus:boolean = false;
 
   constructor(private carService:CarService, 
               private activatedRoute:ActivatedRoute, 
               private toastrService:ToastrService,
-              private rentalService:RentalService) { }
+              private rentalService:RentalService,
+              private router: Router){
+
+              }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       if (params["carId"]){
         this.carId=(params['carId']);
         this.getCarDetails(params["carId"])
+        this.getRentals();       
       }
     })
+    
+  }
+
+  parentFunction(data:boolean){
+    this.dateStatus = data
   }
 
   getCarDetails(carId:number){
@@ -59,6 +73,42 @@ export class CardetailsComponent implements OnInit {
     }
   }
 
-  addToRental(){
+  getRentals(){
+    this.rentalService.getRentals()
+    .subscribe(response => {
+      this.rentals = response.data;
+      this.dataLoaded = true;
+    })
+  }
+
+  redirectToPayment(carId: number){
+    let result = this.rentals.find(value => value.carId == carId);
+    
+    if(result){
+      if(this.rentDate == null || this.returnDate == null)
+      {
+        this.toastrService.error("Kiralama veya dönüş tarihi boş olamaz.")
+      }
+      else{
+        if(result.returnDate > this.rentDate){
+          this.toastrService.warning("Araç kiralamaya uygun değil.")
+        }
+        else{
+          this.toastrService.info("Araç müsait.")
+          //this.router.navigate(["/payment"]);
+          this.dateStatus = true
+        }
+      }
+    }
+    else{
+      if(this.rentDate == null || this.returnDate == null){
+        this.toastrService.error("Kiralama veya dönüş tarihi boş olamaz.")
+      }
+      else{
+        this.toastrService.info("Araç müsait.")
+        //this.router.navigate(["/payment"]);
+        this.dateStatus = true
+      }      
+    }
   }
 }

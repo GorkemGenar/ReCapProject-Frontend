@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { CarDetail } from 'src/app/models/cardetails';
 import { CreditCard } from 'src/app/models/creditcard';
 import { Payment } from 'src/app/models/payment';
+import { Rental } from 'src/app/models/rental';
 import { CreditCardService } from 'src/app/services/creditcard.service';
 import { PaymentService } from 'src/app/services/payment.service';
+import { RentalService } from 'src/app/services/rental.service';
 
 @Component({
   selector: 'app-payment',
@@ -12,6 +15,9 @@ import { PaymentService } from 'src/app/services/payment.service';
 })
 export class PaymentComponent implements OnInit {
 
+  @Input() carId:any
+  @Input() rentDate:Date;
+  @Input() returnDate:Date;
   userId:any
   cardNumber:string
   expirationDate:string
@@ -22,10 +28,12 @@ export class PaymentComponent implements OnInit {
 
   constructor(private creditCardService:CreditCardService,
               private paymentService:PaymentService,
-              private toastrService:ToastrService) { }
+              private toastrService:ToastrService,
+              private rentalService:RentalService) { }
 
   ngOnInit(): void {
     this.getCreditCards()
+    
   }
 
   deneme(){
@@ -48,6 +56,7 @@ export class PaymentComponent implements OnInit {
         if(response.success){
           this.toastrService.info("Kart bilgileri doğru.")
           this.addPayment()
+          this.addRental()
         }
       },
       (error) => 
@@ -65,5 +74,11 @@ export class PaymentComponent implements OnInit {
     let payment = {userId: parseInt(this.userId), cardId: this.cardInHand.id, date:this.date}
     this.paymentService.addPayment(payment).subscribe()
     this.toastrService.success("Ödeme işlemi başarı ile gerçekleşti.")
+  }
+
+  addRental(){
+    let rental = {carId:parseInt(this.carId), customerId:parseInt(this.userId), rentDate:this.rentDate, returnDate:this.returnDate}
+    this.rentalService.addRental(rental).subscribe()
+    this.toastrService.success("Kiralama işlemi gerçekleşti.")
   }
 }

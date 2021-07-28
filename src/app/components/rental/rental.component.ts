@@ -1,5 +1,5 @@
 import { ThisReceiver } from '@angular/compiler';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CarDetail } from 'src/app/models/cardetails';
@@ -19,6 +19,8 @@ export class RentalComponent implements OnInit {
   result:Rental;
   rentDate:Date;
   returnDate:Date;
+  @Output() parentFunction:EventEmitter<any> = new EventEmitter();
+  dateStatus:boolean = false;
 
   constructor(private rentalService:RentalService,
               private router: Router,
@@ -54,8 +56,9 @@ export class RentalComponent implements OnInit {
           this.toastrService.warning("Araç kiralamaya uygun değil.")
         }
         else{
-          this.toastrService.info("Ödeme sayfasına yönlendiriliyor...")
-          this.router.navigate(["/payment"]);
+          this.toastrService.info("Araç müsait.")
+          //this.router.navigate(["/payment"]);
+          this.parentFunction.emit(this.dateStatus = true)
         }
       }
     }
@@ -64,8 +67,9 @@ export class RentalComponent implements OnInit {
         this.toastrService.error("Kiralama veya dönüş tarihi boş olamaz.")
       }
       else{
-        this.toastrService.info("Ödeme sayfasına yönlendiriliyor...")
-        this.router.navigate(["/payment"]);
+        this.toastrService.info("Araç müsait.")
+        //this.router.navigate(["/payment"]);
+        this.parentFunction.emit(this.dateStatus = true)
       }      
     }
     console.log(this.rentDate);
