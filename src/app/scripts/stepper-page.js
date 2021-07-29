@@ -51,13 +51,13 @@ $( document ).ready(function() {
   $('#svg_form_time circle').css('fill',base_color);
   $("circle:nth-of-type(1)").css("fill", active_color);
   
-  var tstr = document.getElementsByClassName("toast-info");
+  var tstr_info = document.getElementsByClassName("toast-info");
 
   $(".button").click(function () {
     $("#svg_form_time rect").css("fill", active_color);
     $("#svg_form_time circle").css("fill", active_color);
     var id = $(this).attr("id");
-    if (id == "next" && tstr.length == 1) {
+    if(id == "next" && tstr_info.length >= 1){
       $("#prev").removeClass("disabled");
       if (child >= length) {
         $(this).addClass("disabled");

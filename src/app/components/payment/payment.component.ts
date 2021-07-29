@@ -1,9 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { CarDetail } from 'src/app/models/cardetails';
 import { CreditCard } from 'src/app/models/creditcard';
-import { Payment } from 'src/app/models/payment';
-import { Rental } from 'src/app/models/rental';
 import { CreditCardService } from 'src/app/services/creditcard.service';
 import { PaymentService } from 'src/app/services/payment.service';
 import { RentalService } from 'src/app/services/rental.service';
@@ -55,6 +52,7 @@ export class PaymentComponent implements OnInit {
       {
         if(response.success){
           this.toastrService.info("Kart bilgileri doğru.")
+          this.toastrService.clear()
           this.addPayment()
           this.addRental()
         }
@@ -64,6 +62,7 @@ export class PaymentComponent implements OnInit {
         console.log(error.error);
         if(error !== null){
           this.toastrService.error("Kart bilgileri yanlış.")
+          this.toastrService.clear()
         }  
       }
     );
@@ -74,11 +73,13 @@ export class PaymentComponent implements OnInit {
     let payment = {userId: parseInt(this.userId), cardId: this.cardInHand.id, date:this.date}
     this.paymentService.addPayment(payment).subscribe()
     this.toastrService.success("Ödeme işlemi başarı ile gerçekleşti.")
+    this.toastrService.clear()
   }
 
   addRental(){
     let rental = {carId:parseInt(this.carId), customerId:parseInt(this.userId), rentDate:this.rentDate, returnDate:this.returnDate}
     this.rentalService.addRental(rental).subscribe()
     this.toastrService.success("Kiralama işlemi gerçekleşti.")
+    this.toastrService.clear()
   }
 }

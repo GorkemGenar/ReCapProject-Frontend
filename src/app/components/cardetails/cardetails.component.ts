@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { delay, timeout } from 'rxjs/operators';
 import { Car } from 'src/app/models/car';
 import { CarDetail } from 'src/app/models/cardetails';
 import { CarImage } from 'src/app/models/carimage';
@@ -27,6 +28,21 @@ export class CardetailsComponent implements OnInit {
   customerId:number = 1;
   dateStatus:boolean = false;
 
+  options = {
+    tapToDismiss: true,
+    toastClass: 'toast',
+    containerId: 'toast-container',
+    debug: false,
+    fadeIn: 300,
+    fadeOut: 1000,
+    extendedTimeOut: 1000,
+    iconClass: 'toast-info',
+    positionClass: 'toast-top-right',
+    timeOut: 5000, // Set timeOut to 0 to make it sticky
+    titleClass: 'toast-title',
+    messageClass: 'toast-message'
+  }
+
   constructor(private carService:CarService, 
               private activatedRoute:ActivatedRoute, 
               private toastrService:ToastrService,
@@ -43,7 +59,6 @@ export class CardetailsComponent implements OnInit {
         this.getRentals();       
       }
     })
-    
   }
 
   parentFunction(data:boolean){
@@ -88,14 +103,16 @@ export class CardetailsComponent implements OnInit {
       if(this.rentDate == null || this.returnDate == null)
       {
         this.toastrService.error("Kiralama veya dönüş tarihi boş olamaz.")
+        this.toastrService.clear()
       }
       else{
         if(result.returnDate > this.rentDate){
           this.toastrService.warning("Araç kiralamaya uygun değil.")
+          this.toastrService.clear()
         }
         else{
           this.toastrService.info("Araç müsait.")
-          //this.router.navigate(["/payment"]);
+          this.toastrService.clear()
           this.dateStatus = true
         }
       }
@@ -103,12 +120,18 @@ export class CardetailsComponent implements OnInit {
     else{
       if(this.rentDate == null || this.returnDate == null){
         this.toastrService.error("Kiralama veya dönüş tarihi boş olamaz.")
+        this.toastrService.clear()
       }
       else{
         this.toastrService.info("Araç müsait.")
-        //this.router.navigate(["/payment"]);
+        this.toastrService.clear()
         this.dateStatus = true
       }      
     }
   }
 }
+
+
+// Stepper pagedeki ilerleme tuşunu(Kirala) javascript tarafında toastr uyarılarının durumuna göre aktif ettim.
+// Bundan dolayı toastr bildirimlerini çağırdıktan sonra clear() fonksiyonu ile aktif olan toastr bildirimini
+// kapatmak gerekiyor.
