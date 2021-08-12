@@ -61,14 +61,17 @@ export class CarComponent implements OnInit {
         this.getColorForFilter();
         this.getBrandForFilter();
       }
-    })  
+    })
+      
   }
 
   getCars(){
     this.carService.getCars().subscribe(respone =>{
       this.cars = respone.data;
       this.dataLoaded = true;
+      console.log(this.cars);
     });
+    
   }
 
   getCarsByBrand(brandId:number){

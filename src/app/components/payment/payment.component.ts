@@ -15,7 +15,7 @@ export class PaymentComponent implements OnInit {
   @Input() carId:any
   @Input() rentDate:Date;
   @Input() returnDate:Date;
-  userId:any
+  userId:number
   cardNumber:string
   expirationDate:string
   cvv:string
@@ -33,11 +33,6 @@ export class PaymentComponent implements OnInit {
     
   }
 
-  deneme(){
-    this.cardInHand = this.creditCards.find(c => c.userId == this.userId)
-    console.log(this.cardInHand);    
-  }
-
   getCreditCards(){
     this.creditCardService.getCards().subscribe(card =>{
       this.creditCards = card.data
@@ -45,7 +40,7 @@ export class PaymentComponent implements OnInit {
   }
   
   checkTheCreditCard(){
-    let creditcard = { userId: parseInt(this.userId), cardNumber:this.cardNumber, expirationDate:this.expirationDate, cvv:this.cvv}    
+    let creditcard = { userId: this.userId, cardNumber:this.cardNumber, expirationDate:this.expirationDate, cvv:this.cvv}    
     this.creditCardService.checkTheCreditCard(creditcard)
     .subscribe(
       (response) =>
@@ -70,16 +65,21 @@ export class PaymentComponent implements OnInit {
 
   addPayment(){
     this.cardInHand = this.creditCards.find(c => c.userId == this.userId)
-    let payment = {userId: parseInt(this.userId), cardId: this.cardInHand.id, date:this.date}
+    let payment = {userId: this.userId, cardId: this.cardInHand.id, date:this.date}
     this.paymentService.addPayment(payment).subscribe()
     this.toastrService.success("Ödeme işlemi başarı ile gerçekleşti.")
     this.toastrService.clear()
   }
 
   addRental(){
-    let rental = {carId:parseInt(this.carId), customerId:parseInt(this.userId), rentDate:this.rentDate, returnDate:this.returnDate}
-    this.rentalService.addRental(rental).subscribe()
-    this.toastrService.success("Kiralama işlemi gerçekleşti.")
-    this.toastrService.clear()
+    let rental = {carId:parseInt(this.carId), customerId:this.userId, rentDate:this.rentDate, returnDate:this.returnDate}
+    this.rentalService.addRental(rental).subscribe(response =>{
+      console.log(response);      
+      this.toastrService.success("Kiralama işlemi gerçekleşti.")
+      this.toastrService.clear()
+    },responseError =>{
+      console.log(responseError.error);
+      
+    })
   }
 }

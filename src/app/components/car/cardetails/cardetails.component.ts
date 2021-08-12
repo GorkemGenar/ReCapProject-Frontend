@@ -28,35 +28,17 @@ export class CardetailsComponent implements OnInit {
   customerId:number = 1;
   dateStatus:boolean = false;
 
-  options = {
-    tapToDismiss: true,
-    toastClass: 'toast',
-    containerId: 'toast-container',
-    debug: false,
-    fadeIn: 300,
-    fadeOut: 1000,
-    extendedTimeOut: 1000,
-    iconClass: 'toast-info',
-    positionClass: 'toast-top-right',
-    timeOut: 5000, // Set timeOut to 0 to make it sticky
-    titleClass: 'toast-title',
-    messageClass: 'toast-message'
-  }
-
   constructor(private carService:CarService, 
               private activatedRoute:ActivatedRoute, 
               private toastrService:ToastrService,
-              private rentalService:RentalService,
-              private router: Router){
-
-              }
+              private rentalService:RentalService){}
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       if (params["carId"]){
         this.carId=(params['carId']);
         this.getCarDetails(params["carId"])
-        this.getRentals();       
+        this.getRentalByCarId();         
       }
     })
   }
@@ -81,56 +63,67 @@ export class CardetailsComponent implements OnInit {
   }
 
   getButtonClass(image: CarImage){
-    if (image == this.carImages[0]) {
+    if (image == this.carImages[0]) 
+    {
       return 'active';
     } else {
       return '';
     }
   }
 
-  getRentals(){
-    this.rentalService.getRentals()
-    .subscribe(response => {
+  getRentalByCarId(){
+    this.rentalService.getRentalByCarId(this.carId).subscribe(response =>
+    {
       this.rentals = response.data;
       this.dataLoaded = true;
     })
   }
 
-  redirectToPayment(carId: number){
-    let result = this.rentals.find(value => value.carId == carId);
+  redirectToPayment(){
+    let result:Rental[]=this.rentals
     
-    if(result){
-      if(this.rentDate == null || this.returnDate == null)
+    console.log(result);
+    
+    for(let i = 0; i < result.length; i++)
+    {
+      if(result)
       {
-        this.toastrService.error("Kiralama veya dönüş tarihi boş olamaz.")
-        this.toastrService.clear()
-      }
-      else{
-        if(result.returnDate > this.rentDate){
-          this.toastrService.warning("Araç kiralamaya uygun değil.")
+        if(this.rentDate == null || this.returnDate == null)
+        {
+          this.toastrService.error("Kiralama veya dönüş tarihi boş olamaz.")
           this.toastrService.clear()
         }
-        else{
+        else
+        {
+          if(this.rentals[i].returnDate > this.rentDate)
+          {
+            this.toastrService.warning("Araç kiralamaya uygun değil.")
+            this.toastrService.clear()
+          }
+          else{
+            this.toastrService.info("Araç müsait.")
+            this.toastrService.clear()
+            this.dateStatus = true
+          }
+        }
+      }
+      else
+      {
+        if(this.rentDate == null || this.returnDate == null)
+        {
+          this.toastrService.error("Kiralama veya dönüş tarihi boş olamaz.")
+          this.toastrService.clear()
+        }
+        else
+        {
           this.toastrService.info("Araç müsait.")
           this.toastrService.clear()
           this.dateStatus = true
-        }
+        }      
       }
-    }
-    else{
-      if(this.rentDate == null || this.returnDate == null){
-        this.toastrService.error("Kiralama veya dönüş tarihi boş olamaz.")
-        this.toastrService.clear()
-      }
-      else{
-        this.toastrService.info("Araç müsait.")
-        this.toastrService.clear()
-        this.dateStatus = true
-      }      
     }
   }
 }
-
 
 // Stepper pagedeki ilerleme tuşunu(Kirala) javascript tarafında toastr uyarılarının durumuna göre aktif ettim.
 // Bundan dolayı toastr bildirimlerini çağırdıktan sonra clear() fonksiyonu ile aktif olan toastr bildirimini

@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header"><h5 class="title">Brand Güncelle</h5></div>
+            <div class="card-body">
+                <form [formGroup]="brandUpdateForm" >
+                    <div class="form-group">
+                        <input class="form-control m-2" type="text" id="brandId" formControlName="brandId" DISABLED/>
+                        <input [(ngModel)]="brandName" class="form-control m-2" type="text" id="brandName" formControlName="brandName"/>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-fill btn-primary" (click)="updateBrand()">Güncelle</button>
+            </div>
+        </div>
+    </div>
+</div>

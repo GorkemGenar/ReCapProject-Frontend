@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header"><h5 class="title">Aşağıdaki ürünü silmek istediğinize emin misiniz?</h5></div>
+            <div class="card-body">
+                <form [formGroup]="brandDeleteForm" >
+                    <div class="form-group">
+                        <input class="form-control m-2" type="text" id="brandId" formControlName="brandId" DISABLED/>
+                        <input class="form-control m-2" type="text" id="brandName" formControlName="brandName" DISABLED/>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-fill btn-danger" style="min-width: 100px !important;" (click)="deleteBrand()">Sil</button>
+            </div>
+        </div>
+    </div>
+</div>

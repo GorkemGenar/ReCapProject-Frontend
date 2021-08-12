@@ -57,7 +57,7 @@ $( document ).ready(function() {
     $("#svg_form_time rect").css("fill", active_color);
     $("#svg_form_time circle").css("fill", active_color);
     var id = $(this).attr("id");
-    if(id == "next" && tstr_info.length >= 1){
+    if(id == "next" && tstr_info.length > 0){
       $("#prev").removeClass("disabled");
       if (child >= length) {
         $(this).addClass("disabled");
