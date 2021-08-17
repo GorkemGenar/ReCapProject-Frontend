@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Car } from 'src/app/models/car';
+import { CarDetail } from 'src/app/models/cardetails';
 import { CarService } from 'src/app/services/car.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class CarListComponent implements OnInit {
   constructor(private carService:CarService,
               private toastrService:ToastrService) { }
 
-  cars:Car[] = []
+  cars:CarDetail[] = []
   dataLoaded = false
 
   ngOnInit(): void {
@@ -21,7 +22,7 @@ export class CarListComponent implements OnInit {
   }
 
   getCars(){
-    this.carService.getCars().subscribe(response =>{
+    this.carService.getCarDetails().subscribe(response =>{
       this.cars = response.data
       this.dataLoaded = true
       this.toastrService.success(response.message,"Başarılı")
@@ -32,10 +33,5 @@ export class CarListComponent implements OnInit {
         }
       }
     })
-  }
-
-  deneme(){
-    console.log(this.cars);
-    
   }
 }

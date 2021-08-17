@@ -10,39 +10,51 @@ import { CarListComponent } from './components/car/car-list/car-list.component';
 import { CarUpdateComponent } from './components/car/car-update/car-update.component';
 import { CarComponent } from './components/car/car.component';
 import { CardetailsComponent } from './components/car/cardetails/cardetails.component';
+import { ColorAddComponent } from './components/color/color-add/color-add.component';
+import { ColorDeleteComponent } from './components/color/color-delete/color-delete.component';
+import { ColorListComponent } from './components/color/color-list/color-list.component';
+import { ColorUpdateComponent } from './components/color/color-update/color-update.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { RentalComponent } from './components/rental/rental.component';
 
 const routes: Routes = [
   {path:"", component:CarComponent},
 
-  {path:"cars", component:CarComponent},
+  {path:"car", component:CarComponent},
   
-  {path:"cars/brand/:brandId", component:CarComponent},
+  {path:"car/brand/:brandId", component:CarComponent},
   
-  {path:"cars/color/:colorId", component:CarComponent},
+  {path:"car/color/:colorId", component:CarComponent},
   
-  {path:"cars/car-details/:carId", component:CardetailsComponent},
+  {path:"car/car-details/:carId", component:CardetailsComponent},
+  
+  {path:"car/brand/:brandId/color/:colorId", component:CarComponent},
 
-  {path:"cars/car-list", component:CarListComponent},
+  {path:"car/list", component:CarListComponent},
 
   {path:"car/add", component:CarAddComponent},
 
   {path:"car/update/:carId", component:CarUpdateComponent},
 
   {path:"car/delete/:carId", component:CarDeleteComponent},
-  
-  {path:"cars/brand/:brandId/color/:colorId", component:CarComponent},
 
-  {path:"payment", component:PaymentComponent},
+  {path:"brand/list", component:BrandsListComponent},
 
   {path:"brand/add", component:BrandAddComponent},
 
-  {path:"brands/list", component:BrandsListComponent},
-
   {path:"brand/update/:brandId", component:BrandUpdateComponent},
 
-  {path:"brand/delete/:brandId", component:BrandDeleteComponent}
+  {path:"brand/delete/:brandId", component:BrandDeleteComponent},
+
+  {path:"color/list", component:ColorListComponent},
+
+  {path:"color/add", component:ColorAddComponent},
+
+  {path:"color/update/:colorId", component:ColorUpdateComponent},
+
+  {path:"color/delete/:colorId", component:ColorDeleteComponent},
+
+  {path:"payment", component:PaymentComponent},
 ];
 
 @NgModule({

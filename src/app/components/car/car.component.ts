@@ -17,7 +17,7 @@ import { ColorService } from 'src/app/services/color.service';
 })
 export class CarComponent implements OnInit {
 
-  cars: Car[] = [];
+  cars: CarDetail[] = [];
   carDetail:CarDetail;
   currentCar: Car;
   imgUrl ="https://localhost:44320/Images/"

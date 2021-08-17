@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormBuilder, FormControl, Validator, Validators} from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Brand } from 'src/app/models/brand';
 import { Color } from 'src/app/models/color';
@@ -24,7 +25,8 @@ export class CarAddComponent implements OnInit {
               private carService:CarService,
               private brandService:BrandService,
               private colorService:ColorService,
-              private toastrService:ToastrService) { }
+              private toastrService:ToastrService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.createCarAddForm()
@@ -44,14 +46,6 @@ export class CarAddComponent implements OnInit {
     })
   }
 
-  setCurrentBrand(brandId:number){
-    return(this.currentBrandId, brandId===this.currentBrandId?true:false)
-  }
-
-  setCurrentColor(colorId:number){
-    return(this.currentColorId, colorId===this.currentColorId?true:false)
-  }
-
   createCarAddForm(){
     this.carAddForm = this.formBuilder.group({
       brandId:["", Validators.required],
@@ -59,8 +53,7 @@ export class CarAddComponent implements OnInit {
       carName:["", Validators.required],
       modelYear:["", Validators.required],
       dailyPrice:["", Validators.required],
-      description:["", Validators.required],
-      //carImage:["", Validators.required]
+      description:["", Validators.required]
     })
   }
 
@@ -68,12 +61,10 @@ export class CarAddComponent implements OnInit {
    
     if(this.carAddForm.valid)
     {
-      let carModel = Object.assign({}, this.carAddForm.value)
-      console.log(carModel);
-      
+      let carModel = Object.assign({}, this.carAddForm.value)      
       this.carService.addCar(carModel).subscribe(data =>{
         this.toastrService.success(data.message, "Başarılı")
-        this.toastrService.clear();
+        this.router.navigate(["car/list"]);
       })
     }
     else{

@@ -1,1 +1,23 @@
-<p>car-delete works!</p>
+<div class="container">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header"><h5 class="title">Aşağıdaki ürünü silmek istediğinize emin misiniz?</h5></div>
+            <div class="card-body">
+                <form [formGroup]="carDeleteForm" >
+                    <div class="form-group">
+                        <input class="form-control m-2" type="text" id="carId" formControlName="carId" DISABLED/>
+                        <input class="form-control m-2" type="text" id="brandId" formControlName="brandId" DISABLED/>
+                        <input class="form-control m-2" type="text" id="colorId" formControlName="colorId" DISABLED/>                        
+                        <input class="form-control m-2" type="text" id="carName" formControlName="carName" DISABLED/>
+                        <input class="form-control m-2" type="text" id="modelYear" formControlName="modelYear" DISABLED/>
+                        <input class="form-control m-2" type="text" id="dailyPrice" formControlName="dailyPrice" DISABLED/>
+                        <input class="form-control m-2" type="text" id="description" formControlName="description" DISABLED/>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-fill btn-danger" style="min-width: 100px !important;" (click)="deleteCar()">Sil</button>
+            </div>
+        </div>
+    </div>
+</div>

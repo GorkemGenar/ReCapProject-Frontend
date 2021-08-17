@@ -1,1 +1,20 @@
-<p>color-update works!</p>
+<div class="container">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="title">Color Güncelle</h5>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="colorUpdateForm" >
+                    <div class="form-group">
+                        <input class="form-control m-2" type="text" id="colorId" formControlName="colorId" DISABLED/>
+                        <input [(ngModel)]="colorName" class="form-control m-2" type="text" id="colorName" formControlName="colorName"/>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-fill btn-primary" (click)="updateColor()">Güncelle</button>
+            </div>
+        </div>
+    </div>
+</div>

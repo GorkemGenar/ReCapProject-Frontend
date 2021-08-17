@@ -37,7 +37,7 @@ export class CardetailsComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       if (params["carId"]){
         this.carId=(params['carId']);
-        this.getCarDetails(params["carId"])
+        this.getCarDetailsById(params["carId"])
         this.getRentalByCarId();         
       }
     })
@@ -47,8 +47,8 @@ export class CardetailsComponent implements OnInit {
     this.dateStatus = data
   }
 
-  getCarDetails(carId:number){
-    this.carService.getCarDetails(carId).subscribe(response =>{
+  getCarDetailsById(carId:number){
+    this.carService.getCarDetailsById(carId).subscribe(response =>{
       this.carDetails=response.data;
       this.carImages=this.carDetails[0].carImage;
     })

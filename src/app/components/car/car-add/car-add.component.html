@@ -1,7 +1,9 @@
 <div class="container">
     <div class="col-12">
         <div class="card">
-            <div class="card-header"><h5 class="title">Car Ekle</h5></div>
+            <div class="card-header">
+                <h5 class="title">Car Ekle</h5>
+            </div>
             <div class="card-body">
                 <form [formGroup]="carAddForm" >
                     <div class="form-group">
@@ -10,25 +12,20 @@
                                 Select a Brand
                             </option>
                             <option *ngFor="let brand of brands"
-                                    [ngValue]="brand.brandId"
-                                    [selected]="setCurrentBrand(brand.brandId)"> {{ brand.brandName }}
+                                    [ngValue]="brand.brandId"> {{ brand.brandName }}
                             </option>
                         </select>
                         <select class="form-select m-2" id="colorselect" [(ngModel)]=currentColorId formControlName="colorId">
                             <option [ngValue]="undefined" disabled selected> Select a Color
                             </option>
                             <option *ngFor="let color of colors"
-                                    [ngValue]="color.colorId"
-                                    [selected]="setCurrentColor(color.colorId)"> {{ color.colorName }}
+                                    [ngValue]="color.colorId"> {{ color.colorName }}
                             </option>
                         </select>
-                        <!-- <input class="form-control m-2" type="number" id="brandId" formControlName="brandId" placeholder="Brand Id"/>
-                        <input class="form-control m-2" type="number" id="colorId" formControlName="colorId" placeholder="Color Id"/> -->
                         <input class="form-control m-2" type="text" id="carName" formControlName="carName" placeholder="Car Name"/>
                         <input class="form-control m-2" type="number" id="modelYear" formControlName="modelYear" placeholder=""/>
                         <input class="form-control m-2" type="number" id="dailyPrice" formControlName="dailyPrice" placeholder=""/>
                         <input class="form-control m-2" type="text" id="description" formControlName="description" placeholder=""/>
-                        <!-- <input class="form-control m-2" type="file" id="carImage" formControlName="carImage" placeholder=""/> -->
                     </div>
                 </form>
             </div>

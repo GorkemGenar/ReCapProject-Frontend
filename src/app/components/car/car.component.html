@@ -24,12 +24,12 @@
     </div>
     <div class="col-md-1" *ngIf="!currentBrandId && currentColorId">
         <button class="btn btn-success"
-                routerLink="/cars/color/{{ currentColorId }}"> Filter
+                routerLink="/car/color/{{ currentColorId }}"> Filter
         </button>
     </div>
     <div class="col-md-1" *ngIf="!currentColorId && currentBrandId">
         <button class="btn btn-success"
-                routerLink="/cars/brand/{{ currentBrandId }}"> Filter
+                routerLink="/car/brand/{{ currentBrandId }}"> Filter
         </button>
     </div>
     <div class="col-md-1" *ngIf="!currentColorId && !currentBrandId">
@@ -37,11 +37,11 @@
     </div>
     <div class="col-md-1" *ngIf="currentColorId && currentBrandId">
         <button class="btn btn-success"
-                routerLink="/cars/brand/{{ currentBrandId }}/color/{{ currentColorId }}"> Filter
+                routerLink="/car/brand/{{ currentBrandId }}/color/{{ currentColorId }}"> Filter
         </button>
     </div>
     <div class="col-md-1 ps-0">
-        <button class="btn btn-warning" routerLink="/cars">Clear</button>
+        <button class="btn btn-warning" routerLink="/car">Clear</button>
     </div>
 </div>
 <table class="table">
@@ -69,7 +69,7 @@
             <td>{{car.dailyPrice |vatAdded:18 | currency}}</td>
             <td>{{car.description}}</td>
             <td>
-                <a class="btn btn-primary m-1" routerLink="/cars/car-details/{{car.carId}}">
+                <a class="btn btn-primary m-1" routerLink="/car/car-details/{{car.carId}}">
                     Detay
                 </a>
             </td>
