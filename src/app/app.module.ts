@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
 
@@ -32,6 +32,8 @@ import { CarDeleteComponent } from './components/car/car-delete/car-delete.compo
 import { ColorDeleteComponent } from './components/color/color-delete/color-delete.component';
 import { ColorListComponent } from './components/color/color-list/color-list.component';
 import { ColorUpdateComponent } from './components/color/color-update/color-update.component';
+import { LoginComponent } from './components/login/login.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [ 
@@ -57,7 +59,8 @@ import { ColorUpdateComponent } from './components/color/color-update/color-upda
     CarDeleteComponent,
     ColorDeleteComponent,
     ColorListComponent,
-    ColorUpdateComponent
+    ColorUpdateComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +73,13 @@ import { ColorUpdateComponent } from './components/color/color-update/color-upda
       positionClass:"toast-bottom-right"
     })
   ],
-  providers: [DatePipe],
+  providers: [
+    DatePipe,
+    {provide:HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi:true}
+    //provide - Genel injection kısmı. Tüm serviceler için injection etmiş oluyoruz
+    //useClass - Hangi httpinterceptor'ın kullanılacağını belirtir
+    //multi - Multiple kullanıma izin verir
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
