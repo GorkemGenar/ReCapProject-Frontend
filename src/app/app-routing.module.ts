@@ -14,8 +14,10 @@ import { ColorAddComponent } from './components/color/color-add/color-add.compon
 import { ColorDeleteComponent } from './components/color/color-delete/color-delete.component';
 import { ColorListComponent } from './components/color/color-list/color-list.component';
 import { ColorUpdateComponent } from './components/color/color-update/color-update.component';
+import { LoginComponent } from './components/login/login.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { RentalComponent } from './components/rental/rental.component';
+import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
   {path:"", component:CarComponent},
@@ -40,7 +42,7 @@ const routes: Routes = [
 
   {path:"brand/list", component:BrandsListComponent},
 
-  {path:"brand/add", component:BrandAddComponent},
+  {path:"brand/add", component:BrandAddComponent, canActivate:[LoginGuard]},
 
   {path:"brand/update/:brandId", component:BrandUpdateComponent},
 
@@ -55,6 +57,8 @@ const routes: Routes = [
   {path:"color/delete/:colorId", component:ColorDeleteComponent},
 
   {path:"payment", component:PaymentComponent},
+
+  {path:"login", component:LoginComponent},
 ];
 
 @NgModule({
