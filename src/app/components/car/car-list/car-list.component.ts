@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Car } from 'src/app/models/car';
-import { CarDetail } from 'src/app/models/cardetails';
+import { CarDetails } from 'src/app/models/cardetails';
 import { CarService } from 'src/app/services/car.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class CarListComponent implements OnInit {
   constructor(private carService:CarService,
               private toastrService:ToastrService) { }
 
-  cars:CarDetail[] = []
+  cars:CarDetails[] = []
   dataLoaded = false
 
   ngOnInit(): void {

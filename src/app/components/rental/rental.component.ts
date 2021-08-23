@@ -2,7 +2,7 @@ import { ThisReceiver } from '@angular/compiler';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { CarDetail } from 'src/app/models/cardetails';
+import { CarDetails } from 'src/app/models/cardetails';
 import { Rental } from 'src/app/models/rental';
 import { RentalService } from 'src/app/services/rental.service';
 
@@ -15,7 +15,7 @@ export class RentalComponent implements OnInit {
 
   rentals:Rental[]=[];
   dataLoaded = false;
-  @Input() carDetails:CarDetail[]=[];
+  @Input() carDetails:CarDetails[]=[];
   result:Rental;
   rentDate:Date;
   returnDate:Date;

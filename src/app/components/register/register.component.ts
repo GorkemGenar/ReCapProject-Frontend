@@ -4,38 +4,38 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
-export class LoginComponent implements OnInit {
+export class RegisterComponent implements OnInit {
 
-  loginForm:FormGroup
+  registerForm:FormGroup
 
   constructor(private formBuilder:FormBuilder,
               private authService:AuthService,
               private toastrService:ToastrService) { }
 
   ngOnInit(): void {
-    this.createLoginForm()
+    this.createRegisterForm()
   }
 
-  createLoginForm(){
-    this.loginForm = this.formBuilder.group({
+  createRegisterForm(){
+    this.registerForm = this.formBuilder.group({
+      firstName:["", Validators.required],
+      lastName:["", Validators.required],
       email:["", Validators.required],
       password:["", Validators.required]
     })
   }
 
-  login(){
-    if(this.loginForm.valid){
-      let loginModel = Object.assign({}, this.loginForm.value)
+  register(){
+    if(this.registerForm.valid){
+      let registerModel = Object.assign({}, this.registerForm.value)
 
-      this.authService.login(loginModel).subscribe(response => {
-        // this.toastrService.info(response.message)
-        // localStorage.setItem("token", response.data.token)    
-        console.log(response);
-        
+      this.authService.register(registerModel).subscribe(response => {
+        this.toastrService.info(response.message)
+        localStorage.setItem("token", response.data.token)    
       },responseError =>{
         this.toastrService.error(responseError.error,"Dikkat");
       })
@@ -45,4 +45,5 @@ export class LoginComponent implements OnInit {
       this.toastrService.clear();
     }
   }
+
 }

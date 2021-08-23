@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Brand } from 'src/app/models/brand';
 import { Car } from 'src/app/models/car';
-import { CarDetail } from 'src/app/models/cardetails';
+import { CarDetails } from 'src/app/models/cardetails';
 import { Color } from 'src/app/models/color';
 import { BrandService } from 'src/app/services/brand.service';
 import { CarService } from 'src/app/services/car.service';
@@ -17,8 +17,8 @@ import { ColorService } from 'src/app/services/color.service';
 })
 export class CarComponent implements OnInit {
 
-  cars: CarDetail[] = [];
-  carDetail:CarDetail;
+  cars: CarDetails[] = [];
+  carDetail:CarDetails;
   currentCar: Car;
   imgUrl ="https://localhost:44320/Images/"
   defaultImage="default.jpg";
@@ -69,7 +69,6 @@ export class CarComponent implements OnInit {
     this.carService.getCars().subscribe(respone =>{
       this.cars = respone.data;
       this.dataLoaded = true;
-      console.log(this.cars);
     });
     
   }

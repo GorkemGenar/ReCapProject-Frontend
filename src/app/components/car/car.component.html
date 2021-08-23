@@ -54,6 +54,7 @@
             <th scope="col">Model Year</th>
             <th scope="col">Daily Price</th>
             <th scope="col">Daily Price with Vat</th>
+            <th scope="col">Min Required Findex Rate</th>
             <th scope="col">Description</th>
             <th scope="col"></th>
         </tr>
@@ -67,6 +68,7 @@
             <td>{{car.modelYear}}</td>
             <td>{{car.dailyPrice |currency}}</td>
             <td>{{car.dailyPrice |vatAdded:18 | currency}}</td>
+            <td>{{car.minRequiredFindexRate}}</td>
             <td>{{car.description}}</td>
             <td>
                 <a class="btn btn-primary m-1" routerLink="/car/car-details/{{car.carId}}">

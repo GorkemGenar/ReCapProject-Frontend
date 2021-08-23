@@ -16,7 +16,7 @@ import { ColorService } from 'src/app/services/color.service';
 })
 export class CarDeleteComponent implements OnInit {
 
-  car:Car={carId:0, brandId:0, colorId:0, carName:"", modelYear:0, dailyPrice:0, description:""}
+  car:Car={carId:0, brandId:0, colorId:0, carName:"", modelYear:0, dailyPrice:0, minRequiredFindexRate:0, description:""}
   carId:number
   carDeleteForm:FormGroup
   brand:Brand={brandId:0, brandName:""}

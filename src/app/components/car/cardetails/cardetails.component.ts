@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { delay, timeout } from 'rxjs/operators';
 import { Car } from 'src/app/models/car';
-import { CarDetail } from 'src/app/models/cardetails';
+import { CarDetails } from 'src/app/models/cardetails';
 import { CarImage } from 'src/app/models/carimage';
 import { Rental } from 'src/app/models/rental';
 import { CarService } from 'src/app/services/car.service';
@@ -16,8 +16,8 @@ import { RentalService } from 'src/app/services/rental.service';
 })
 export class CardetailsComponent implements OnInit {
 
-  carDetails:CarDetail[]=[];
-  carImages:CarImage[];
+  carDetails:CarDetails[] = []
+  carImages:CarImage[]=[];
   imgUrl:string="https://localhost:44363/images/";  
   carId:number;
   rentals:Rental[]=[];
@@ -36,21 +36,22 @@ export class CardetailsComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       if (params["carId"]){
-        this.carId=(params['carId']);
-        this.getCarDetailsById(params["carId"])
-        this.getRentalByCarId();         
-      }
+        this.carId = params['carId'];  
+      }  
     })
+    this.getCarDetailsById()
+    this.getRentalByCarId()
   }
 
   parentFunction(data:boolean){
     this.dateStatus = data
   }
 
-  getCarDetailsById(carId:number){
-    this.carService.getCarDetailsById(carId).subscribe(response =>{
-      this.carDetails=response.data;
-      this.carImages=this.carDetails[0].carImage;
+  getCarDetailsById(){
+    this.carService.getCarDetailsById(this.carId).subscribe(response =>{
+      this.carDetails = response.data;
+      this.carImages = response.data[0].carImage
+      console.log(this.carDetails);
     })
   }
 
@@ -75,18 +76,16 @@ export class CardetailsComponent implements OnInit {
     this.rentalService.getRentalByCarId(this.carId).subscribe(response =>
     {
       this.rentals = response.data;
-      this.dataLoaded = true;
     })
   }
 
   redirectToPayment(){
     let result:Rental[]=this.rentals
-    
     console.log(result);
     
-    for(let i = 0; i < result.length; i++)
+    if(result.length>0)
     {
-      if(result)
+      for(let i = 0; i < result.length; i++)
       {
         if(this.rentDate == null || this.returnDate == null)
         {
@@ -107,20 +106,20 @@ export class CardetailsComponent implements OnInit {
           }
         }
       }
+    }
+    else
+    {
+      if(this.rentDate == null || this.returnDate == null)
+      {
+        this.toastrService.error("Kiralama veya dönüş tarihi boş olamaz.")
+        this.toastrService.clear()
+      }
       else
       {
-        if(this.rentDate == null || this.returnDate == null)
-        {
-          this.toastrService.error("Kiralama veya dönüş tarihi boş olamaz.")
-          this.toastrService.clear()
-        }
-        else
-        {
-          this.toastrService.info("Araç müsait.")
-          this.toastrService.clear()
-          this.dateStatus = true
-        }      
-      }
+        this.toastrService.info("Araç müsait.")
+        this.toastrService.clear()
+        this.dateStatus = true
+      }      
     }
   }
 }

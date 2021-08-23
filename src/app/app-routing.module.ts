@@ -16,6 +16,7 @@ import { ColorListComponent } from './components/color/color-list/color-list.com
 import { ColorUpdateComponent } from './components/color/color-update/color-update.component';
 import { LoginComponent } from './components/login/login.component';
 import { PaymentComponent } from './components/payment/payment.component';
+import { RegisterComponent } from './components/register/register.component';
 import { RentalComponent } from './components/rental/rental.component';
 import { LoginGuard } from './guards/login.guard';
 
@@ -59,6 +60,8 @@ const routes: Routes = [
   {path:"payment", component:PaymentComponent},
 
   {path:"login", component:LoginComponent},
+
+  {path:"register", component:RegisterComponent},
 ];
 
 @NgModule({
