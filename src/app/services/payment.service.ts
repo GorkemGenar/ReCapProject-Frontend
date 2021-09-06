@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Payment } from '../models/payment';
+import { SingleResponseModel } from '../models/singleResponseModel';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +14,9 @@ export class PaymentService {
 
   constructor(private httpClient:HttpClient) { }
 
-  addPayment(payment:Payment):Observable<Payment>{
+  addPayment(payment:Payment):Observable<SingleResponseModel<Payment>>{
     let newPath = this.apiUrl + 'payment/add'
-    return this.httpClient.post<Payment>(newPath,payment).pipe(catchError(this.handleError));
+    return this.httpClient.post<SingleResponseModel<Payment>>(newPath,payment).pipe(catchError(this.handleError));
   }
 
   handleError(error: HttpErrorResponse) { // Bu method dönen hataları yakalamak için

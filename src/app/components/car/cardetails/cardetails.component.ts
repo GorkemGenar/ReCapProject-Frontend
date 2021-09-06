@@ -16,22 +16,23 @@ import { RentalService } from 'src/app/services/rental.service';
 })
 export class CardetailsComponent implements OnInit {
 
-  carDetails:CarDetails[] = []
+  carDetails:CarDetails[]=[]
   carImages:CarImage[]=[];
   imgUrl:string="https://localhost:44363/images/";  
   carId:number;
   rentals:Rental[]=[];
   dataLoaded = false;
   result:Rental;
-  rentDate:Date;
-  returnDate:Date;
+  rentDate:string;
+  returnDate:string;
   customerId:number = 1;
   dateStatus:boolean = false;
 
-  constructor(private carService:CarService, 
-              private activatedRoute:ActivatedRoute, 
+  constructor(private carService:CarService,
+              private activatedRoute:ActivatedRoute,
               private toastrService:ToastrService,
-              private rentalService:RentalService){}
+              private rentalService:RentalService,
+              private router: Router){}
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -51,7 +52,6 @@ export class CardetailsComponent implements OnInit {
     this.carService.getCarDetailsById(this.carId).subscribe(response =>{
       this.carDetails = response.data;
       this.carImages = response.data[0].carImage
-      console.log(this.carDetails);
     })
   }
 
@@ -81,7 +81,6 @@ export class CardetailsComponent implements OnInit {
 
   redirectToPayment(){
     let result:Rental[]=this.rentals
-    console.log(result);
     
     if(result.length>0)
     {
@@ -90,19 +89,18 @@ export class CardetailsComponent implements OnInit {
         if(this.rentDate == null || this.returnDate == null)
         {
           this.toastrService.error("Kiralama veya dönüş tarihi boş olamaz.")
-          this.toastrService.clear()
         }
         else
         {
           if(this.rentals[i].returnDate > this.rentDate)
           {
             this.toastrService.warning("Araç kiralamaya uygun değil.")
-            this.toastrService.clear()
           }
           else{
             this.toastrService.info("Araç müsait.")
-            this.toastrService.clear()
             this.dateStatus = true
+            this.rentalService.changeDate(this.rentDate, this.returnDate)
+            this.router.navigate(["payment/" + this.carId]);
           }
         }
       }
@@ -112,18 +110,14 @@ export class CardetailsComponent implements OnInit {
       if(this.rentDate == null || this.returnDate == null)
       {
         this.toastrService.error("Kiralama veya dönüş tarihi boş olamaz.")
-        this.toastrService.clear()
       }
       else
       {
         this.toastrService.info("Araç müsait.")
-        this.toastrService.clear()
         this.dateStatus = true
+        this.rentalService.changeDate(this.rentDate, this.returnDate)
+        this.router.navigate(["payment/" + this.carId]);
       }      
     }
   }
 }
-
-// Stepper pagedeki ilerleme tuşunu(Kirala) javascript tarafında toastr uyarılarının durumuna göre aktif ettim.
-// Bundan dolayı toastr bildirimlerini çağırdıktan sonra clear() fonksiyonu ile aktif olan toastr bildirimini
-// kapatmak gerekiyor.

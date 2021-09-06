@@ -57,7 +57,7 @@ const routes: Routes = [
 
   {path:"color/delete/:colorId", component:ColorDeleteComponent},
 
-  {path:"payment", component:PaymentComponent},
+  {path:"payment/:carId", component:PaymentComponent},
 
   {path:"login", component:LoginComponent},
 

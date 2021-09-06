@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormBuilder, FormControl, Validator, Validators} from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -14,6 +15,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder:FormBuilder,
               private authService:AuthService,
+              private router: Router,
               private toastrService:ToastrService) { }
 
   ngOnInit(): void {
@@ -30,12 +32,10 @@ export class LoginComponent implements OnInit {
   login(){
     if(this.loginForm.valid){
       let loginModel = Object.assign({}, this.loginForm.value)
-
       this.authService.login(loginModel).subscribe(response => {
-        // this.toastrService.info(response.message)
-        // localStorage.setItem("token", response.data.token)    
-        console.log(response);
-        
+        this.toastrService.info(response.message)
+        localStorage.setItem("token", response.data.token)
+        this.router.navigate(["/"]);
       },responseError =>{
         this.toastrService.error(responseError.error,"Dikkat");
       })

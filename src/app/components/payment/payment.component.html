@@ -1,19 +1,45 @@
 <div class="container">
-    <div class="form-floating mb-3">
-        <input type="number" [(ngModel)]=userId class="form-control w-50" id="floatingInput" placeholder="User Id">
-        <label for="floatingInput">User Id</label>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-floating mb-3">
+                <input type="number" [(ngModel)]=userId class="form-control w-75" id="floatingInput"
+                    placeholder="User Id">
+                <label for="floatingInput">User Id</label>
+            </div>
+            <div type="text" class="form-floating mb-3">
+                <input [(ngModel)]="cardNumber" class="form-control w-75" id="floatingInput" placeholder="Card Number">
+                <label for="floatingInput">Card Number</label>
+            </div>
+            <div type="text" class="form-floating mb-3">
+                <input [(ngModel)]="expirationDate" class="form-control w-75" id="floatingPassword"
+                    placeholder="Expiration Date">
+                <label for="floatingPassword">Expiration Date</label>
+            </div>
+            <div type="text" class="form-floating mb-3">
+                <input [(ngModel)]="cvv" class="form-control w-75" id="floatingPassword" placeholder="Cvv">
+                <label for="floatingPassword">Cvv</label>
+            </div>
+            <div class="mb-3 form-check">
+                <input [(ngModel)]="saveStatus" type="checkbox" class="form-check-input" id="saveMyCard">
+                <label class="form-check-label" for="exampleCheck1">Save my credit card</label>
+            </div>
+            <button (click)="checkTheCreditCard()" type="button" class="btn btn-primary">
+                Ödemeyi Tamamla
+            </button>
+        </div>
+        <div class="col-6">
+            <ul style="list-style-type:none;">
+                <li class="mb-2">
+                    <div class="card" style="width: 22rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Name Surname</h5>
+                            <p class="card-text">Card Number</p>
+                            <a href="#" class="card-link">Bu Kartı Kullan</a>
+                            <a href="#" class="card-link">Kartı Sil</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div type="text" class="form-floating mb-3">
-        <input [(ngModel)]="cardNumber" class="form-control w-50" id="floatingInput" placeholder="Card Number">
-        <label for="floatingInput">Card Number</label>
-    </div>
-    <div type="text" class="form-floating mb-3">
-        <input [(ngModel)]="expirationDate" class="form-control w-50" id="floatingPassword" placeholder="Expiration Date">
-        <label for="floatingPassword">Expiration Date</label>
-    </div>
-    <div type="text" class="form-floating mb-3">
-        <input [(ngModel)]="cvv" class="form-control w-50" id="floatingPassword" placeholder="Cvv">
-        <label for="floatingPassword">Cvv</label>
-    </div>
-    <button (click)="checkTheCreditCard()" type="button" class="btn btn-primary">Ödemeyi Tamamla</button>
 </div>

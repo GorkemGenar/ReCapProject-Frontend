@@ -1,26 +1,84 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-<nav class="navbar navbar-expand-lg navbar-light bg-light"></nav>
-<div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li>
-    </ul>
-    <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light"></nav>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <ul *ngIf="loginState==false" class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item m-1">
+                    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Login</a>
+                    <!--LOGIN MODAL - Start -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <main class="form-signin text-center container">
+                                        <form [formGroup]="loginForm">
+                                            <h1 class="h3 mb-3 fw-normal">Giriş Yap</h1>
+                                            <div class="form-floating">
+                                                <input type="email" class="form-control" id="floatingInput" formControlName="email" placeholder="name@example.com">
+                                                <label for="floatingInput">E Posta</label>
+                                            </div>
+                                            <div class="form-floating pt-2">
+                                                <input type="password" class="form-control" id="floatingPassword" formControlName="password" placeholder="Parola">
+                                                <label for="floatingPassword">Parola</label>
+                                            </div>
+                                            <div class="checkbox mb-3">
+                                                <label>
+                                                    <input type="checkbox" value="remember-me"> Remember me
+                                                </label>
+                                            </div>
+                                            <p class="mt-2 mb-3 text-muted">&copy; 2017–2021</p>
+                                        </form>
+                                    </main>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary"(click)="login()">Giriş Yap</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--LOGIN MODAL - End -->
+                </li>
+                <li class="nav-item m-1">
+                    <a class="btn btn-primary" href="/register">Register</a>
+                </li>
+            </ul>
+            <ul *ngIf="loginState==true" class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item m-1">
+                    <div class="dropdown">
+                        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ getCurrentCustomer().firstName }} {{ getCurrentCustomer().lastName }}
+                        </button>
+                        <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="#">{{ getCurrentCustomer().firstName }} {{ getCurrentCustomer().lastName }}</a></li>
+                            <li><a class="dropdown-item" href="#">{{ getCurrentCustomer().email }}</a></li>
+                            <li><a class="btn btn-primary" (click)="logout()">Logout</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
 </nav>
+

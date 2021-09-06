@@ -10,17 +10,17 @@ import { catchError, retry } from 'rxjs/operators';
 })
 export class CreditCardService {
 
-  apiUrl="https://localhost:44363/api/";
+  apiUrl="https://localhost:44363/api/frombankcreditcard/";
 
   constructor(private httpClient:HttpClient) {}
   
   checkTheCreditCard(creditCard:CreditCard):Observable<ListResponseModel<CreditCard>>{
-    let newPath = this.apiUrl + 'creditcard/checkthecard'
+    let newPath = this.apiUrl + 'checkthecard'
     return this.httpClient.post<ListResponseModel<CreditCard>>(newPath, creditCard).pipe(catchError(this.handleError)); //(1)
   }
 
   getCards():Observable<ListResponseModel<CreditCard>>{
-    let newPath = this.apiUrl + "creditcard/getall"
+    let newPath = this.apiUrl + "getall"
     return this.httpClient.get<ListResponseModel<CreditCard>>(newPath);
   }
 

@@ -35,6 +35,7 @@ import { ColorUpdateComponent } from './components/color/color-update/color-upda
 import { LoginComponent } from './components/login/login.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { RegisterComponent } from './components/register/register.component';
+import { LogoutComponent } from './components/logout/logout.component';
 
 @NgModule({
   declarations: [ 
@@ -62,7 +63,8 @@ import { RegisterComponent } from './components/register/register.component';
     ColorListComponent,
     ColorUpdateComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,

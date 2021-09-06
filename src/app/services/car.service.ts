@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Car } from '../models/car';
 import { CarDetails } from '../models/cardetails';
+import { CarImage } from '../models/carimage';
 import { ListResponseModel } from '../models/listReponseModel';
 import { ResponseModel } from '../models/responseModel';
 import { SingleResponseModel } from '../models/singleResponseModel';
@@ -10,6 +11,7 @@ import { SingleResponseModel } from '../models/singleResponseModel';
 @Injectable({
   providedIn: 'root'
 })
+
 export class CarService {
 
   apiUrl = "https://localhost:44363/api/cars/";
