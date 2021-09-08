@@ -18,7 +18,7 @@ export class NaviComponent implements OnInit {
 
   loginState:boolean
   loginForm:FormGroup
-  user:UserModel={userId:0,firstName:"",lastName:"",email:"",passwordHash:"",passwordSalt:""}
+  user:UserModel={id:0,firstName:"",lastName:"",email:"",passwordHash:"",passwordSalt:""}
   currentUserEmail: string = '';
 
   constructor(private formBuilder:FormBuilder,
@@ -31,14 +31,7 @@ export class NaviComponent implements OnInit {
   ngOnInit(): void {
     this.setCurrentCustomerEmail()
     this.createLoginForm()
-    this.checkLogin()
-
-    console.log(this.setCurrentCustomerEmail());
-    
-  }
-
-  deneme(){
-    console.log(this.user);
+    this.checkLogin()  
   }
 
   checkLogin(){
@@ -83,7 +76,7 @@ export class NaviComponent implements OnInit {
        : null;
   }
 
-  getCurrentCustomer():UserModel {    
+  getCurrentUser():UserModel {    
     return this.localStorageService.getCurrentUser();  
   }
 

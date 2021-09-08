@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CreditCard } from '../models/creditcard';
+import { CreditCardHashed } from '../models/creditcardhashed';
 import { ListResponseModel } from '../models/listReponseModel';
 import { SingleResponseModel } from '../models/singleResponseModel';
 
@@ -29,9 +30,9 @@ export class SavedCreditCardService {
     return this.httpClient.post<SingleResponseModel<CreditCard>>(newPath, creditCard)
   }
 
-  getCardByUser(userId:number):Observable<SingleResponseModel<CreditCard>>{
+  getCardByUser(userId:number):Observable<SingleResponseModel<CreditCardHashed>>{
     let newPath = this.apiUrl + "getbyuserid?userid=" + userId
-    return this.httpClient.get<SingleResponseModel<CreditCard>>(newPath)
+    return this.httpClient.get<SingleResponseModel<CreditCardHashed>>(newPath)
   }
 
 }

@@ -3,10 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CarDetails } from 'src/app/models/cardetails';
 import { CreditCard } from 'src/app/models/creditcard';
+import { CreditCardHashed } from 'src/app/models/creditcardhashed';
 import { FindexModel } from 'src/app/models/findexModel';
+import { UserModel } from 'src/app/models/userModel';
 import { CarService } from 'src/app/services/car.service';
 import { CreditCardService } from 'src/app/services/creditcard.service';
 import { FindexService } from 'src/app/services/findex.service';
+import { LocalStorageService } from 'src/app/services/localstorage.service';
 import { PaymentService } from 'src/app/services/payment.service';
 import { RentalService } from 'src/app/services/rental.service';
 import { SavedCreditCardService } from 'src/app/services/savedcreditcard.service';
@@ -20,54 +23,60 @@ export class PaymentComponent implements OnInit {
 
   carId: any
   carDetails: CarDetails[] = [];
-  userId: number
+  userId: number = this.localStorageService.getCurrentUser().id
+  user: UserModel = this.localStorageService.getCurrentUser()
   cardNumber: string
+  cardNumberHashed: string = ""
   expirationDate: string
+  expirationDateHashed: string = ""
   cvv: string
+  cvvHashed: string = ""
   creditCards: CreditCard[] = []
-  savedCreditCards:CreditCard [] = []
+  creditCardHashed:CreditCardHashed = {userId: 0, cardNumberHash: "", expirationDateHash: "", cvvHash: "" }
   date: string = "2021"
-  rentDate:string
-  returnDate:string
+  rentDate: string
+  returnDate: string
   cardInHand: CreditCard = { id: 0, userId: 0, cardNumber: "", expirationDate: "", cvv: "" }
-  saveStatus:boolean=false
+  saveStatus: boolean = false
   findexRate: FindexModel[] = []
   findexRateOfUser: number = 0
   findexRateOfCar: number = 0
-  
+  isThereSavedCardForUser: boolean = false
 
-  constructor(private carService:CarService,
-              private activatedRoute:ActivatedRoute,
+  constructor(private carService: CarService,
+              private activatedRoute: ActivatedRoute,
               private creditCardService: CreditCardService,
-              private savedCreditCardService:SavedCreditCardService,
+              private savedCreditCardService: SavedCreditCardService,
               private paymentService: PaymentService,
               private toastrService: ToastrService,
               private rentalService: RentalService,
               private router: Router,
-              private findexService: FindexService) { }
+              private findexService: FindexService,
+              private localStorageService: LocalStorageService) { }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
-    if (params["carId"]){
-      this.carId = params['carId'];  
-      }  
+      if (params["carId"]) {
+        this.carId = params['carId'];
+      }
     })
 
-    this.rentalService.currentRentDate.forEach(response =>{
+    this.rentalService.currentRentDate.forEach(response => {
       this.rentDate = response
     })
-    this.rentalService.currentReturnDate.forEach(response =>{
+    this.rentalService.currentReturnDate.forEach(response => {
       this.returnDate = response
     })
 
     this.redirectToLoginIfDateIsEmpty()
     this.getCarDetailsById()
     this.getCreditCards()
-    this.getSavedCreditCards()
+    this.getSavedCreditCardByUser(this.userId)
+    this.getCreditCardsByUserId()        
   }
 
-  getCarDetailsById(){
-    this.carService.getCarDetailsById(this.carId).subscribe(response =>{
+  getCarDetailsById() {
+    this.carService.getCarDetailsById(this.carId).subscribe(response => {
       this.carDetails = response.data;
     })
   }
@@ -78,80 +87,71 @@ export class PaymentComponent implements OnInit {
     })
   }
 
-  getSavedCreditCards(){
-    this.savedCreditCardService.getCards().subscribe(response =>{
-      this.savedCreditCards = response.data
+  getCreditCardsByUserId() {
+    this.creditCardService.getCardByUserId(this.userId).subscribe(card => {
+      this.creditCardHashed = card.data
+      console.log(this.creditCardHashed);      
     })
   }
 
-  getSavedCreditCardByUser(userId:number){
-    this.savedCreditCardService.getCardByUser(userId).subscribe(response =>{
-      
+  getSavedCreditCardByUser(userId: number) {
+    this.savedCreditCardService.getCardByUser(userId).subscribe(response => {
+      if (response.data !== null) {
+        this.isThereSavedCardForUser = true
+      }
     })
   }
 
   checkTheCreditCard() {
     let creditcard = { userId: this.userId, cardNumber: this.cardNumber, expirationDate: this.expirationDate, cvv: this.cvv }
-
+    
     this.carDetails.forEach(element => {
       this.findexRateOfCar = element.minRequiredFindexRate
-    });
+    });    
 
-    this.creditCardService.checkTheCreditCard(creditcard).subscribe((response) => 
-    {
+    this.creditCardService.checkTheCreditCard(creditcard).subscribe((response) => {
       if (response.success) // kart bilgileri doğru ise
       {
         this.savedCreditCardService.checkTheCreditCard(creditcard).subscribe(
-          response =>
-          {
-            if(response.success) // sistemde kayıtlı ise
+          response => {
+            if (response.success) // sistemde kayıtlı ise
             {
               this.toastrService.info("Kart sistemde zaten kayıtlı.")
-              this.findexService.getFindexByUser(this.userId).subscribe((response) => 
-              {
-                if (response.data[0].findexRate >= this.findexRateOfCar) 
-                {
+              this.findexService.getFindexByUser(this.userId).subscribe((response) => {
+                if (response.data[0].findexRate >= this.findexRateOfCar) {
                   this.addRental()
                 }
-                else 
-                {
+                else {
                   this.toastrService.error("Findex puanınız bu aracı kiralamak için yeterli değil.", "Hata")
                 }
               })
             }
           },
-          (error) => 
-          {
+          (error) => {
             if (error !== null && this.saveStatus == true) // kart kayıtlı değil ve kayıt isteniyor ise
             {
               this.savedCreditCardService.addCreditCard(creditcard).subscribe(
-                response =>
-                {
+                response => {
                   this.toastrService.success(response.message, "Başarılı") // kart kaydedildi
-                  this.findexService.getFindexByUser(this.userId).subscribe((response) => 
-                  {
+                  this.findexService.getFindexByUser(this.userId).subscribe((response) => {
                     if (response.data[0].findexRate >= this.findexRateOfCar) // findex puan kontrolü
                     {
                       this.addRental()
                     }
-                    else 
-                    {
+                    else {
                       this.toastrService.error("Findex puanınız bu aracı kiralamak için yeterli değil.", "Hata")
                     }
                   })
                 }
               )
             }
-            else if(error !== null) // kart kayıtlı değil ve kayıt istenmiyor ise
+            else if (error !== null) // kart kayıtlı değil ve kayıt istenmiyor ise
             {
-              this.findexService.getFindexByUser(this.userId).subscribe((response) => 
-              {
-                if (response.data[0].findexRate >= this.findexRateOfCar) 
-                {
+              this.findexService.getFindexByUser(this.userId).subscribe((response) => {
+                if (response.data[0].findexRate >= this.findexRateOfCar) {
                   this.addRental()
                 }
-                else 
-                {
+                else {
                   this.toastrService.error("Findex puanınız bu aracı kiralamak için yeterli değil.", "Hata")
                 }
               })
@@ -160,47 +160,73 @@ export class PaymentComponent implements OnInit {
         )
       }
     },
-    (error) => 
-    {
-      if (error !== null) {        
-        this.toastrService.error(error.error.message, "Hata")
-      }
+      (error) => {
+        if (error !== null) {
+          this.toastrService.error(error.error.message, "Hata")
+        }
+      });
+  }
+
+  checkTheSavedCreditCard() {
+    let creditcardhashed:CreditCardHashed = { userId: this.creditCardHashed.userId, cardNumberHash: this.creditCardHashed.cardNumberHash, expirationDateHash: this.creditCardHashed.expirationDateHash, cvvHash: this.creditCardHashed.cvvHash }
+    
+    this.carDetails.forEach(element => {
+      this.findexRateOfCar = element.minRequiredFindexRate
     });
+
+    this.creditCardService.checkTheSavedCreditCard(creditcardhashed).subscribe((response) => {
+      if (response.success) // kart bilgileri doğru ise
+      {
+        this.findexService.getFindexByUser(this.userId).subscribe((response) => {
+          if (response.data[0].findexRate >= this.findexRateOfCar) {
+            this.addRental()
+          }
+          else {
+            this.toastrService.error("Findex puanınız bu aracı kiralamak için yeterli değil.", "Hata")
+          }
+        })
+      }
+    },
+      (error) => 
+      {
+        if (error !== null) {
+          this.toastrService.error(error.error.message, "Hata")
+        }
+      }
+    );
   }
 
   addPayment() {
     this.cardInHand = this.creditCards.find(c => c.userId == this.userId)
     let payment = { userId: this.userId, cardId: this.cardInHand.id, date: this.date }
-    
+
     this.paymentService.addPayment(payment).subscribe(response => {
       this.toastrService.success(response.message, "Başarılı")
       this.router.navigate(["/"]);
     })
   }
 
-  addRental() {    
+  addRental() {
+    let rental = { carId: parseInt(this.carId), customerId: this.userId, rentDate: this.rentDate, returnDate: this.returnDate }
 
-    let rental = { carId:parseInt(this.carId), customerId: this.userId, rentDate: this.rentDate, returnDate: this.returnDate }
-    
     this.rentalService.addRental(rental).subscribe(response => {
       if (response.success) {
         this.addPayment()
         this.toastrService.success(response.message, "Başarılı")
       }
-    }, 
-    responseError => 
-    {
-      this.toastrService.error("Kiralama oluşturulamadı.", "Hata");
-      
-    })
+    },
+      responseError => {
+        this.toastrService.error("Kiralama oluşturulamadı.", "Hata");
+
+      })
   }
-  
-  redirectToLoginIfDateIsEmpty(){
+
+  redirectToLoginIfDateIsEmpty() {
     // Payment sayfasında bir sebepten dolayı sayfa yenilenebilir. Bu durumda rentDate ve returnDate'in 
     // değerleri silineceği için bu değerlerin tekrardan girilmesi yönlendirme işlemi
 
-    if(!this.rentDate || !this.returnDate){
-      this.router.navigate(["car/car-details/"+this.carId])
+    if (!this.rentDate || !this.returnDate) {
+      this.router.navigate(["car/car-details/" + this.carId])
       this.toastrService.info("Kiralama ve dönüş tarihlerini tekrar girin.")
     }
   }

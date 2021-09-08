@@ -5,6 +5,7 @@ import { Brand } from 'src/app/models/brand';
 import { Car } from 'src/app/models/car';
 import { CarDetails } from 'src/app/models/cardetails';
 import { Color } from 'src/app/models/color';
+import { AuthService } from 'src/app/services/auth.service';
 import { BrandService } from 'src/app/services/brand.service';
 import { CarService } from 'src/app/services/car.service';
 import { ColorService } from 'src/app/services/color.service';
@@ -35,7 +36,8 @@ export class CarComponent implements OnInit {
               private activatedRoute:ActivatedRoute, 
               private colorService:ColorService, 
               private brandService:BrandService,
-              private toastrService:ToastrService) {}
+              private toastrService:ToastrService,
+              private authService:AuthService) {}
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -62,7 +64,20 @@ export class CarComponent implements OnInit {
         this.getBrandForFilter();
       }
     })
-      
+    //--> SAYFAYI 1 KERE RELOAD EDER.
+    if (!localStorage.getItem('foo')) { 
+      localStorage.setItem('foo', 'no reload') 
+      location.reload() 
+    } 
+    else {
+      localStorage.removeItem('foo') 
+    }
+  }
+
+  reloadThePageIfUserIsAuthenticated(){
+    if (this.authService.isAuthenticated){
+      window.location.reload();
+    }
   }
 
   getCars(){

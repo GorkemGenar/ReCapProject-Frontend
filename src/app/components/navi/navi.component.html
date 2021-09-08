@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary"(click)="login()">Giriş Yap</button>
+                                    <button type="button" class="btn btn-primary" (click)="login()">Giriş Yap</button>
                                 </div>
                             </div>
                         </div>
@@ -68,11 +68,11 @@
                     <div class="dropdown">
                         <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ getCurrentCustomer().firstName }} {{ getCurrentCustomer().lastName }}
+                            {{ getCurrentUser().firstName }} {{ getCurrentUser().lastName }}
                         </button>
                         <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">{{ getCurrentCustomer().firstName }} {{ getCurrentCustomer().lastName }}</a></li>
-                            <li><a class="dropdown-item" href="#">{{ getCurrentCustomer().email }}</a></li>
+                            <li><a class="dropdown-item" href="#">{{ getCurrentUser().firstName }} {{ getCurrentUser().lastName }}</a></li>
+                            <li><a class="dropdown-item" href="#">{{ getCurrentUser().email }}</a></li>
                             <li><a class="btn btn-primary" (click)="logout()">Logout</a></li>
                         </ul>
                     </div>

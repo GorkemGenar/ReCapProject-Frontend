@@ -1,11 +1,6 @@
 <div class="container">
     <div class="row">
         <div class="col-6">
-            <div class="form-floating mb-3">
-                <input type="number" [(ngModel)]=userId class="form-control w-75" id="floatingInput"
-                    placeholder="User Id">
-                <label for="floatingInput">User Id</label>
-            </div>
             <div type="text" class="form-floating mb-3">
                 <input [(ngModel)]="cardNumber" class="form-control w-75" id="floatingInput" placeholder="Card Number">
                 <label for="floatingInput">Card Number</label>
@@ -28,14 +23,14 @@
             </button>
         </div>
         <div class="col-6">
-            <ul style="list-style-type:none;">
+            <ul *ngIf="isThereSavedCardForUser == true" style="list-style-type:none;">
                 <li class="mb-2">
                     <div class="card" style="width: 22rem;">
                         <div class="card-body">
-                            <h5 class="card-title">Name Surname</h5>
-                            <p class="card-text">Card Number</p>
-                            <a href="#" class="card-link">Bu Kartı Kullan</a>
-                            <a href="#" class="card-link">Kartı Sil</a>
+                            <h5 class="card-title">{{user.firstName}} {{user.lastName}}</h5>
+                            <p class="card-text">**** **** **** ****</p>
+                            <a class="badge rounded-pill bg-primary p-2" style="text-decoration: none;" (click)="checkTheSavedCreditCard()">Bu Kartı Kullan</a>
+                            <a class="badge rounded-pill bg-danger ms-2 p-2" style="text-decoration: none;">Kartı Sil</a>
                         </div>
                     </div>
                 </li>
