@@ -23,25 +23,25 @@
         </select>
     </div>
     <div class="col-md-1" *ngIf="!currentBrandId && currentColorId">
-        <button class="btn btn-success"
+        <button class="btn btn-primary"
                 routerLink="/car/color/{{ currentColorId }}"> Filter
         </button>
     </div>
     <div class="col-md-1" *ngIf="!currentColorId && currentBrandId">
-        <button class="btn btn-success"
+        <button class="btn btn-primary"
                 routerLink="/car/brand/{{ currentBrandId }}"> Filter
         </button>
     </div>
     <div class="col-md-1" *ngIf="!currentColorId && !currentBrandId">
-        <button (click)="getCarForBrandAndColor(currentBrandId,currentColorId)" class="btn btn-success"> Filter </button>
+        <button (click)="getCarForBrandAndColor(currentBrandId,currentColorId)" class="btn btn-primary"> Filter </button>
     </div>
     <div class="col-md-1" *ngIf="currentColorId && currentBrandId">
-        <button class="btn btn-success"
+        <button class="btn btn-primary"
                 routerLink="/car/brand/{{ currentBrandId }}/color/{{ currentColorId }}"> Filter
         </button>
     </div>
     <div class="col-md-1 ps-0">
-        <button class="btn btn-warning" routerLink="/car">Clear</button>
+        <button class="btn btn-primary" routerLink="/car">Clear</button>
     </div>
 </div>
 <table class="table">

@@ -26,17 +26,14 @@ export class PaymentComponent implements OnInit {
   userId: number = this.localStorageService.getCurrentUser().id
   user: UserModel = this.localStorageService.getCurrentUser()
   cardNumber: string
-  cardNumberHashed: string = ""
   expirationDate: string
-  expirationDateHashed: string = ""
   cvv: string
-  cvvHashed: string = ""
   creditCards: CreditCard[] = []
-  creditCardHashed:CreditCardHashed = {userId: 0, cardNumberHash: "", expirationDateHash: "", cvvHash: "" }
+  creditCardHashed: CreditCardHashed
+  savedCreditCard: CreditCardHashed
   date: string = "2021"
   rentDate: string
   returnDate: string
-  cardInHand: CreditCard = { id: 0, userId: 0, cardNumber: "", expirationDate: "", cvv: "" }
   saveStatus: boolean = false
   findexRate: FindexModel[] = []
   findexRateOfUser: number = 0
@@ -44,15 +41,15 @@ export class PaymentComponent implements OnInit {
   isThereSavedCardForUser: boolean = false
 
   constructor(private carService: CarService,
-              private activatedRoute: ActivatedRoute,
-              private creditCardService: CreditCardService,
-              private savedCreditCardService: SavedCreditCardService,
-              private paymentService: PaymentService,
-              private toastrService: ToastrService,
-              private rentalService: RentalService,
-              private router: Router,
-              private findexService: FindexService,
-              private localStorageService: LocalStorageService) { }
+    private activatedRoute: ActivatedRoute,
+    private creditCardService: CreditCardService,
+    private savedCreditCardService: SavedCreditCardService,
+    private paymentService: PaymentService,
+    private toastrService: ToastrService,
+    private rentalService: RentalService,
+    private router: Router,
+    private findexService: FindexService,
+    private localStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -71,8 +68,8 @@ export class PaymentComponent implements OnInit {
     this.redirectToLoginIfDateIsEmpty()
     this.getCarDetailsById()
     this.getCreditCards()
+    this.getCreditCardsByUser()
     this.getSavedCreditCardByUser(this.userId)
-    this.getCreditCardsByUserId()        
   }
 
   getCarDetailsById() {
@@ -87,10 +84,10 @@ export class PaymentComponent implements OnInit {
     })
   }
 
-  getCreditCardsByUserId() {
+  getCreditCardsByUser() {
     this.creditCardService.getCardByUserId(this.userId).subscribe(card => {
       this.creditCardHashed = card.data
-      console.log(this.creditCardHashed);      
+
     })
   }
 
@@ -98,25 +95,29 @@ export class PaymentComponent implements OnInit {
     this.savedCreditCardService.getCardByUser(userId).subscribe(response => {
       if (response.data !== null) {
         this.isThereSavedCardForUser = true
+        this.savedCreditCard = response.data
       }
     })
   }
 
   checkTheCreditCard() {
     let creditcard = { userId: this.userId, cardNumber: this.cardNumber, expirationDate: this.expirationDate, cvv: this.cvv }
-    
     this.carDetails.forEach(element => {
       this.findexRateOfCar = element.minRequiredFindexRate
-    });    
+    });
+
+    console.log("Hashed: ",this.creditCardHashed);
+    console.log("CC: ",creditcard);
+    
 
     this.creditCardService.checkTheCreditCard(creditcard).subscribe((response) => {
       if (response.success) // kart bilgileri doğru ise
       {
-        this.savedCreditCardService.checkTheCreditCard(creditcard).subscribe(
+        this.savedCreditCardService.checkTheCreditCard(this.creditCardHashed).subscribe(
           response => {
             if (response.success) // sistemde kayıtlı ise
             {
-              this.toastrService.info("Kart sistemde zaten kayıtlı.")
+              this.toastrService.info(response.message) //Kart sistemde kayıtlı
               this.findexService.getFindexByUser(this.userId).subscribe((response) => {
                 if (response.data[0].findexRate >= this.findexRateOfCar) {
                   this.addRental()
@@ -130,7 +131,7 @@ export class PaymentComponent implements OnInit {
           (error) => {
             if (error !== null && this.saveStatus == true) // kart kayıtlı değil ve kayıt isteniyor ise
             {
-              this.savedCreditCardService.addCreditCard(creditcard).subscribe(
+              this.savedCreditCardService.addCreditCard(this.creditCardHashed).subscribe(
                 response => {
                   this.toastrService.success(response.message, "Başarılı") // kart kaydedildi
                   this.findexService.getFindexByUser(this.userId).subscribe((response) => {
@@ -164,17 +165,16 @@ export class PaymentComponent implements OnInit {
         if (error !== null) {
           this.toastrService.error(error.error.message, "Hata")
         }
-      });
+      }
+    );
   }
 
   checkTheSavedCreditCard() {
-    let creditcardhashed:CreditCardHashed = { userId: this.creditCardHashed.userId, cardNumberHash: this.creditCardHashed.cardNumberHash, expirationDateHash: this.creditCardHashed.expirationDateHash, cvvHash: this.creditCardHashed.cvvHash }
-    
     this.carDetails.forEach(element => {
       this.findexRateOfCar = element.minRequiredFindexRate
     });
 
-    this.creditCardService.checkTheSavedCreditCard(creditcardhashed).subscribe((response) => {
+    this.creditCardService.checkTheSavedCreditCard(this.savedCreditCard).subscribe((response) => {
       if (response.success) // kart bilgileri doğru ise
       {
         this.findexService.getFindexByUser(this.userId).subscribe((response) => {
@@ -187,8 +187,7 @@ export class PaymentComponent implements OnInit {
         })
       }
     },
-      (error) => 
-      {
+      (error) => {
         if (error !== null) {
           this.toastrService.error(error.error.message, "Hata")
         }
@@ -196,9 +195,16 @@ export class PaymentComponent implements OnInit {
     );
   }
 
+  deleteTheSavedCard(){
+    this.savedCreditCardService.deleteTheCard(this.savedCreditCard).subscribe(response =>{
+      this.toastrService.success(response.message, "Başarılı")
+      window.location.reload();
+    })
+  }
+
   addPayment() {
-    this.cardInHand = this.creditCards.find(c => c.userId == this.userId)
-    let payment = { userId: this.userId, cardId: this.cardInHand.id, date: this.date }
+    let cardInHandId = this.creditCards.find(c => c.userId == this.userId).id
+    let payment = { userId: this.userId, cardId: cardInHandId, date: this.date }
 
     this.paymentService.addPayment(payment).subscribe(response => {
       this.toastrService.success(response.message, "Başarılı")
@@ -218,7 +224,8 @@ export class PaymentComponent implements OnInit {
       responseError => {
         this.toastrService.error("Kiralama oluşturulamadı.", "Hata");
 
-      })
+      }
+    )
   }
 
   redirectToLoginIfDateIsEmpty() {

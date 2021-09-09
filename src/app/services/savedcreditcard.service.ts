@@ -20,12 +20,12 @@ export class SavedCreditCardService {
     return this.httpClient.get<ListResponseModel<CreditCard>>(newPath);
   }
 
-  checkTheCreditCard(creditCard:CreditCard):Observable<SingleResponseModel<CreditCard>>{
+  checkTheCreditCard(creditCard:CreditCardHashed):Observable<SingleResponseModel<CreditCard>>{
     let newPath = this.apiUrl + 'checkthecard'
     return this.httpClient.post<SingleResponseModel<CreditCard>>(newPath, creditCard);
   }
 
-  addCreditCard(creditCard:CreditCard):Observable<SingleResponseModel<CreditCard>>{
+  addCreditCard(creditCard:CreditCardHashed):Observable<SingleResponseModel<CreditCard>>{
     let newPath = this.apiUrl + 'add'
     return this.httpClient.post<SingleResponseModel<CreditCard>>(newPath, creditCard)
   }
@@ -33,6 +33,11 @@ export class SavedCreditCardService {
   getCardByUser(userId:number):Observable<SingleResponseModel<CreditCardHashed>>{
     let newPath = this.apiUrl + "getbyuserid?userid=" + userId
     return this.httpClient.get<SingleResponseModel<CreditCardHashed>>(newPath)
+  }
+
+  deleteTheCard(creditCard:CreditCardHashed):Observable<SingleResponseModel<CreditCardHashed>>{
+    let newPath = this.apiUrl + "delete"
+    return this.httpClient.post<SingleResponseModel<CreditCardHashed>>(newPath, creditCard)
   }
 
 }

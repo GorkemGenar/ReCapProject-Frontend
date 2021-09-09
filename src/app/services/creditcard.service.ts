@@ -23,7 +23,7 @@ export class CreditCardService {
 
   checkTheSavedCreditCard(creditCard:CreditCardHashed):Observable<ListResponseModel<CreditCardHashed>>{
     let newPath = this.apiUrl + 'checkthesavedcard'
-    return this.httpClient.post<ListResponseModel<CreditCardHashed>>(newPath, creditCard).pipe(catchError(this.handleError)); //(1)
+    return this.httpClient.post<ListResponseModel<CreditCardHashed>>(newPath, creditCard).pipe(catchError(this.handleError));
   }
 
   getCards():Observable<ListResponseModel<CreditCard>>{
