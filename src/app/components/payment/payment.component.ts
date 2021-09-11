@@ -31,9 +31,8 @@ export class PaymentComponent implements OnInit {
   creditCards: CreditCard[] = []
   creditCardHashed: CreditCardHashed
   savedCreditCard: CreditCardHashed
-  date: string = "2021"
-  rentDate: string
-  returnDate: string
+  rentDate: Date
+  returnDate: Date
   saveStatus: boolean = false
   findexRate: FindexModel[] = []
   findexRateOfUser: number = 0
@@ -170,6 +169,10 @@ export class PaymentComponent implements OnInit {
   }
 
   checkTheSavedCreditCard() {
+
+    console.log("Rent Date: ",this.rentDate);
+    console.log("Return Date: ",this.returnDate);
+    
     this.carDetails.forEach(element => {
       this.findexRateOfCar = element.minRequiredFindexRate
     });
@@ -204,7 +207,10 @@ export class PaymentComponent implements OnInit {
 
   addPayment() {
     let cardInHandId = this.creditCards.find(c => c.userId == this.userId).id
-    let payment = { userId: this.userId, cardId: cardInHandId, date: this.date }
+    let currentTime = new Date().toLocaleString();
+    let payment = { userId: this.userId, cardId: cardInHandId, date: JSON.stringify(currentTime)}
+
+    console.log(JSON.stringify(currentTime));    
 
     this.paymentService.addPayment(payment).subscribe(response => {
       this.toastrService.success(response.message, "Başarılı")
@@ -222,7 +228,7 @@ export class PaymentComponent implements OnInit {
       }
     },
       responseError => {
-        this.toastrService.error("Kiralama oluşturulamadı.", "Hata");
+        this.toastrService.error(responseError.error.message, "Hata");
 
       }
     )

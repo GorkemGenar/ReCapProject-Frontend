@@ -49,12 +49,12 @@
   <table class="table table-striped table-hover table-bordered">
     <thead *ngFor="let car of carDetails">
       <tr>
-        <th>Rent Date </th>
-        <td><input [(ngModel)]="rentDate" class="form-control" type="text" placeholder="Rent Date"></td>
+        <th for="renttime">Rent Date (Date and Time):</th>
+        <td><input [(ngModel)]="rentDate" class="form-control" type="datetime-local" id="renttime" name="renttime"></td>
       </tr>
       <tr>
-        <th>Return Date</th>
-        <td><input [(ngModel)]="returnDate" class="form-control" type="text" placeholder="Return Date"></td>
+        <th>Return Date (Date and Time):</th>
+        <td><input [(ngModel)]="returnDate" class="form-control" type="datetime-local"id="returntime" name="returntime"></td>
       </tr>
       <tr>
         <th>İşlem</th>

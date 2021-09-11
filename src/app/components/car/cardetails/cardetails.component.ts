@@ -22,11 +22,12 @@ export class CardetailsComponent implements OnInit {
   rentals: Rental[] = [];
   dataLoaded = false;
   result: Rental;
-  rentDate: string;
-  returnDate: string;
+  rentDate: Date;
+  returnDate: Date;
   customerId: number = 1;
   dateStatus: boolean = false;
-  authenticatedStatus:boolean = false
+  authenticatedStatus: boolean = false
+
 
   constructor(private carService: CarService,
     private activatedRoute: ActivatedRoute,
@@ -80,15 +81,21 @@ export class CardetailsComponent implements OnInit {
 
   redirectToPayment() {
     let result: Rental[] = this.rentals
+    let rentDateForCompare = new Date(this.rentDate)
+    rentDateForCompare.setHours(0, 0, 0, 0)
+
     if (this.authService.isAuthenticated()) {
       this.authenticatedStatus = true
       if (result.length > 0) {
         for (let i = 0; i < result.length; i++) {
+          let rentDateInSytemForCompare = new Date(this.rentals[i].returnDate)
+          rentDateInSytemForCompare.setHours(0, 0, 0, 0)
           if (this.rentDate == null || this.returnDate == null) {
             this.toastrService.error("Kiralama veya dönüş tarihi boş olamaz.")
           }
           else {
-            if (this.rentals[i].returnDate > this.rentDate) {
+            if (rentDateInSytemForCompare > rentDateForCompare) {
+
               this.toastrService.warning("Araç kiralamaya uygun değil.")
             }
             else {
@@ -112,7 +119,7 @@ export class CardetailsComponent implements OnInit {
         }
       }
     }
-    else{
+    else {
       this.authenticatedStatus = false
       this.toastrService.warning("Önce giriş yapmalısınız", "Uyarı")
       this.router.navigate(["login"]);

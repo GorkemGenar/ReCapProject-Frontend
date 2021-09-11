@@ -1,6 +1,6 @@
-export interface Rental{
-    carId:number;
-    customerId : number;
-    rentDate : string;
-    returnDate:string;
+export interface Rental {
+    carId: number;
+    customerId: number;
+    rentDate?: Date;
+    returnDate: Date;
 }

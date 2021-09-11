@@ -17,8 +17,8 @@ export class RentalComponent implements OnInit {
   dataLoaded = false;
   @Input() carDetails:CarDetails[]=[];
   result:Rental;
-  rentDate:string;
-  returnDate:string;
+  rentDate:Date;
+  returnDate:Date;
   @Output() parentFunction:EventEmitter<any> = new EventEmitter();
   dateStatus:boolean = false;
 

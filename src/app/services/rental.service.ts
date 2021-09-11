@@ -15,16 +15,16 @@ import { SingleResponseModel } from '../models/singleResponseModel';
 export class RentalService {
 
   apiUrl="https://localhost:44363/api/";
-  public editRentDate:string  = ""
-  public editReturnDate:string  = ""
+  public editRentDate:Date = null
+  public editReturnDate:Date = null;
   private rentDateSource = new BehaviorSubject(this.editRentDate)
-  private returnDateSource = new BehaviorSubject(this.editRentDate)
+  private returnDateSource = new BehaviorSubject(this.editReturnDate)
   currentRentDate = this.rentDateSource.asObservable()
   currentReturnDate = this.returnDateSource.asObservable()
 
   constructor(private httpClient:HttpClient) {}
 
-  changeDate(rentDate:string, returnDate:string){
+  changeDate(rentDate:Date, returnDate:Date){
     this.rentDateSource.next(rentDate)
     this.returnDateSource.next(returnDate)
   }
