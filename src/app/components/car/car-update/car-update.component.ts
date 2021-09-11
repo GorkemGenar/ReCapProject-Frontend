@@ -42,7 +42,6 @@ export class CarUpdateComponent implements OnInit {
     this.createCarUpdateForm()
     this.getBrandsForSelect()
     this.getColorsForSelect()
-    
   }
 
   getBrandsForSelect(){

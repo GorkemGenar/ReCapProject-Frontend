@@ -29,6 +29,15 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.setCurrentCustomerEmail()
     this.createLoginForm()
+    
+     //--> SAYFAYI 1 KERE RELOAD EDER.
+     if (!localStorage.getItem('foo')) { 
+      localStorage.setItem('foo', 'no reload') 
+      location.reload() 
+    } 
+    else {
+      localStorage.removeItem('foo') 
+    }
   }
 
   createLoginForm(){

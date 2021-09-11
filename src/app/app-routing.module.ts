@@ -14,11 +14,12 @@ import { ColorAddComponent } from './components/color/color-add/color-add.compon
 import { ColorDeleteComponent } from './components/color/color-delete/color-delete.component';
 import { ColorListComponent } from './components/color/color-list/color-list.component';
 import { ColorUpdateComponent } from './components/color/color-update/color-update.component';
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './components/auth/login/login.component';
 import { PaymentComponent } from './components/payment/payment.component';
-import { RegisterComponent } from './components/register/register.component';
+import { RegisterComponent } from './components/auth/register/register.component';
 import { RentalComponent } from './components/rental/rental.component';
 import { LoginGuard } from './guards/login.guard';
+import { UserUpdateComponent } from './components/auth/user-update/user-update.component';
 
 const routes: Routes = [
   {path:"", component:CarComponent},
@@ -62,6 +63,8 @@ const routes: Routes = [
   {path:"login", component:LoginComponent},
 
   {path:"register", component:RegisterComponent},
+
+  {path:"user/update/:userId", component:UserUpdateComponent},
 ];
 
 @NgModule({

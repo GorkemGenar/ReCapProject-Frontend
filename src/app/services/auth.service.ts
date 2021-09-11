@@ -6,6 +6,8 @@ import { RegisterModel } from '../models/registerModel';
 import { ResponseModel } from '../models/responseModel';
 import { SingleResponseModel } from '../models/singleResponseModel';
 import { TokenModel } from '../models/tokenModel';
+import { UpdateModel } from '../models/updateModel';
+import { UserModel } from '../models/userModel';
 import { LocalStorageService } from './localstorage.service';
 
 @Injectable({
@@ -22,6 +24,14 @@ export class AuthService {
     return this.httpClient.post<SingleResponseModel<TokenModel>>(this.apiUrl+"login", loginModel)
   }
 
+  register(registerModel:RegisterModel):Observable<SingleResponseModel<TokenModel>>{
+    return this.httpClient.post<SingleResponseModel<TokenModel>>(this.apiUrl+"register",registerModel)
+  }
+
+  update(updateModel:UpdateModel):Observable<SingleResponseModel<UserModel>>{
+    return this.httpClient.post<SingleResponseModel<UserModel>>(this.apiUrl+"update", updateModel)
+  }
+
   isAuthenticated(){
     if(this.localStorageService.get("token")){
       return true
@@ -29,9 +39,5 @@ export class AuthService {
     else{
       return false
     }
-  }
-
-  register(registerModel:RegisterModel):Observable<SingleResponseModel<TokenModel>>{
-    return this.httpClient.post<SingleResponseModel<TokenModel>>(this.apiUrl+"register",registerModel)
   }
 }

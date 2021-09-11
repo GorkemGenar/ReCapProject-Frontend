@@ -1,80 +1,82 @@
 <div *ngIf="dataLoaded==false" class="spinner-border text-primary" role="status">
     <span class="visually-hidden">Loading...</span>
 </div>
-<div class="row">
-    <div class="col-md-5">
+<div *ngIf="dataLoaded==true" class="row">
+    <div class="col-md-4">
         <select class="form-select" id="brandselect" [(ngModel)]="currentBrandId">
             <option [ngValue]="undefined" disabled selected> Select a Brand
             </option>
-            <option *ngFor="let brand of brands"
-                    [value]="brand.brandId"
-                    [selected]="setCurrentBrand(brand.brandId)"> {{ brand.brandName }}
+            <option *ngFor="let brand of brands" [value]="brand.brandId" [selected]="setCurrentBrand(brand.brandId)"> {{
+                brand.brandName }}
             </option>
         </select>
     </div>
-    <div class="col-md-5">
+    <div class="col-md-4">
         <select class="form-select" id="colorselect" [(ngModel)]="currentColorId">
             <option [ngValue]="undefined" disabled selected> Select a Color
             </option>
-            <option *ngFor="let color of colors"
-                    [value]="color.colorId"
-                    [selected]="setCurrentColor(color.colorId)"> {{ color.colorName }}
+            <option *ngFor="let color of colors" [value]="color.colorId" [selected]="setCurrentColor(color.colorId)"> {{
+                color.colorName }}
             </option>
         </select>
     </div>
     <div class="col-md-1" *ngIf="!currentBrandId && currentColorId">
-        <button class="btn btn-primary"
-                routerLink="/car/color/{{ currentColorId }}"> Filter
+        <button class="btn btn-primary" routerLink="/car/color/{{ currentColorId }}">
+            Filter
         </button>
     </div>
     <div class="col-md-1" *ngIf="!currentColorId && currentBrandId">
-        <button class="btn btn-primary"
-                routerLink="/car/brand/{{ currentBrandId }}"> Filter
+        <button class="btn btn-primary" routerLink="/car/brand/{{ currentBrandId }}">
+            Filter
         </button>
     </div>
     <div class="col-md-1" *ngIf="!currentColorId && !currentBrandId">
-        <button (click)="getCarForBrandAndColor(currentBrandId,currentColorId)" class="btn btn-primary"> Filter </button>
-    </div>
-    <div class="col-md-1" *ngIf="currentColorId && currentBrandId">
-        <button class="btn btn-primary"
-                routerLink="/car/brand/{{ currentBrandId }}/color/{{ currentColorId }}"> Filter
+        <button (click)="getCarForBrandAndColor(currentBrandId,currentColorId)" class="btn btn-primary">
+            Filter
         </button>
     </div>
-    <div class="col-md-1 ps-0">
+    <div class="col-md-1" *ngIf="currentColorId && currentBrandId">
+        <button class="btn btn-primary" routerLink="/car/brand/{{ currentBrandId }}/color/{{ currentColorId }}">
+            Filter
+        </button>
+    </div>
+    <div class="col-md-1">
         <button class="btn btn-primary" routerLink="/car">Clear</button>
     </div>
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Car ID</th>
+                    <th scope="col">Car Name</th>
+                    <th scope="col">Brand Name</th>
+                    <th scope="col">Color</th>
+                    <th scope="col">Model Year</th>
+                    <th scope="col">Daily Price</th>
+                    <th scope="col">Daily Price with Vat</th>
+                    <th scope="col">Min. Req. Findex Rate</th>
+                    <th scope="col">Description</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let car of cars | filterPipe:filterText">
+                    <td>{{car.carId}}</td>
+                    <td>{{car.carName}}</td>
+                    <td>{{car.brandName}}</td>
+                    <td>{{car.colorName}}</td>
+                    <td>{{car.modelYear}}</td>
+                    <td>{{car.dailyPrice |currency}}</td>
+                    <td>{{car.dailyPrice |vatAdded:18 | currency}}</td>
+                    <td>{{car.minRequiredFindexRate}}</td>
+                    <td>{{car.description}}</td>
+                    <td>
+                        <a class="btn btn-primary m-1" routerLink="/car/car-details/{{car.carId}}">
+                            Detay
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-<table class="table">
-    <thead *ngIf="dataLoaded==true">
-        <tr>
-            <th scope="col">Car ID</th>
-            <th scope="col">Car Name</th>
-            <th scope="col">Brand Name</th>
-            <th scope="col">Color</th>
-            <th scope="col">Model Year</th>
-            <th scope="col">Daily Price</th>
-            <th scope="col">Daily Price with Vat</th>
-            <th scope="col">Min Required Findex Rate</th>
-            <th scope="col">Description</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let car of cars | filterPipe:filterText">
-            <td>{{car.carId}}</td>
-            <td>{{car.carName}}</td>
-            <td>{{car.brandName}}</td>
-            <td>{{car.colorName}}</td>
-            <td>{{car.modelYear}}</td>
-            <td>{{car.dailyPrice |currency}}</td>
-            <td>{{car.dailyPrice |vatAdded:18 | currency}}</td>
-            <td>{{car.minRequiredFindexRate}}</td>
-            <td>{{car.description}}</td>
-            <td>
-                <a class="btn btn-primary m-1" routerLink="/car/car-details/{{car.carId}}">
-                    Detay
-                </a>
-            </td>
-        </tr>
-    </tbody>    
-</table>

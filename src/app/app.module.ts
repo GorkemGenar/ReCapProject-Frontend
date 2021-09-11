@@ -32,10 +32,11 @@ import { CarDeleteComponent } from './components/car/car-delete/car-delete.compo
 import { ColorDeleteComponent } from './components/color/color-delete/color-delete.component';
 import { ColorListComponent } from './components/color/color-list/color-list.component';
 import { ColorUpdateComponent } from './components/color/color-update/color-update.component';
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './components/auth/login/login.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { RegisterComponent } from './components/register/register.component';
-import { LogoutComponent } from './components/logout/logout.component';
+import { RegisterComponent } from './components/auth/register/register.component';
+import { AuthComponent } from './components/auth/auth.component';
+import { UserUpdateComponent } from './components/auth/user-update/user-update.component';
 
 @NgModule({
   declarations: [ 
@@ -64,7 +65,8 @@ import { LogoutComponent } from './components/logout/logout.component';
     ColorUpdateComponent,
     LoginComponent,
     RegisterComponent,
-    LogoutComponent
+    AuthComponent,
+    UserUpdateComponent
   ],
   imports: [
     BrowserModule,
