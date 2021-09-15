@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormBuilder, FormControl, Validator, Validators} from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
+import { LocalStorageService } from 'src/app/services/localstorage.service';
 
 @Component({
   selector: 'app-register',
@@ -11,10 +13,13 @@ import { AuthService } from 'src/app/services/auth.service';
 export class RegisterComponent implements OnInit {
 
   registerForm:FormGroup
+  currentUserEmail: string = '';
 
   constructor(private formBuilder:FormBuilder,
               private authService:AuthService,
-              private toastrService:ToastrService) { }
+              private toastrService:ToastrService,
+              private router:Router,
+              private localStorageService:LocalStorageService) { }
 
   ngOnInit(): void {
     this.createRegisterForm()
@@ -35,7 +40,9 @@ export class RegisterComponent implements OnInit {
 
       this.authService.register(registerModel).subscribe(response => {
         this.toastrService.info(response.message)
-        localStorage.setItem("token", response.data.token)    
+        localStorage.setItem("token", response.data.token)
+        location.reload();
+        this.router.navigate(["/login"])
       },responseError =>{
         this.toastrService.error(responseError.error,"Dikkat");
       })
@@ -46,4 +53,9 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  setCurrentCustomerEmail() {
+    return this.localStorageService.getCurrentUser()
+       ? this.currentUserEmail = this.localStorageService.getCurrentUser().email
+       : null;
+  }
 }

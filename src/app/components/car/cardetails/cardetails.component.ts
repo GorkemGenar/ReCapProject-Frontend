@@ -81,9 +81,11 @@ export class CardetailsComponent implements OnInit {
 
   redirectToPayment() {
     let result: Rental[] = this.rentals
+    let currentTime = new Date()
+    currentTime.setHours(0,0,0,0)
     let rentDateForCompare = new Date(this.rentDate)
-    rentDateForCompare.setHours(0, 0, 0, 0)
-
+    rentDateForCompare.setHours(0, 0, 0, 0) // tarih atamalarında saat bilgileride olduğu için gün bazlı kaşılaştırmalarda 
+                                            // saat bilgilerinin karşılaştırmaya etkisi olmaması için saat bilgilerinin sıfırladık.
     if (this.authService.isAuthenticated()) {
       this.authenticatedStatus = true
       if (result.length > 0) {
@@ -94,15 +96,25 @@ export class CardetailsComponent implements OnInit {
             this.toastrService.error("Kiralama veya dönüş tarihi boş olamaz.")
           }
           else {
-            if (rentDateInSytemForCompare > rentDateForCompare) {
-
-              this.toastrService.warning("Araç kiralamaya uygun değil.")
+            if (rentDateForCompare < currentTime) {
+              console.log("Rent date: ",this.rentDate);
+              console.log("Current date: ",currentTime);
+              this.toastrService.error("Geçmiş zamana kiralama yapılamaz.")
             }
-            else {
-              this.toastrService.info("Araç müsait.")
-              this.dateStatus = true
-              this.rentalService.changeDate(this.rentDate, this.returnDate)
-              this.router.navigate(["payment/" + this.carId]);
+            else{
+              console.log("Rent date: ",this.rentDate);
+              console.log("Current date: ",currentTime);
+              if (rentDateInSytemForCompare > rentDateForCompare) {
+                this.toastrService.warning("Araç kiralamaya uygun değil.")
+              }
+              else {
+                console.log("Rent date: ",this.rentDate);
+                console.log("Current date: ",currentTime);
+                this.toastrService.info("Araç müsait.")
+                this.dateStatus = true
+                this.rentalService.changeDate(this.rentDate, this.returnDate)
+                this.router.navigate(["payment/" + this.carId]);
+              }
             }
           }
         }
@@ -112,10 +124,19 @@ export class CardetailsComponent implements OnInit {
           this.toastrService.error("Kiralama veya dönüş tarihi boş olamaz.")
         }
         else {
-          this.toastrService.info("Araç müsait.")
-          this.dateStatus = true
-          this.rentalService.changeDate(this.rentDate, this.returnDate)
-          this.router.navigate(["payment/" + this.carId]);
+          if (rentDateForCompare < currentTime) {
+            console.log("Rent date: ",this.rentDate);
+            console.log("Current date: ",currentTime);
+            this.toastrService.error("Geçmiş zamana kiralama yapılamaz.")
+          }
+          else{
+            console.log("Rent date: ",this.rentDate);
+            console.log("Current date: ",currentTime);
+            this.toastrService.info("Araç müsait.")
+            this.dateStatus = true
+            this.rentalService.changeDate(this.rentDate, this.returnDate)
+            this.router.navigate(["payment/" + this.carId]);
+          }
         }
       }
     }

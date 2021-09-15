@@ -44,7 +44,7 @@
     </li>
 </ul>
 <ul *ngIf="loginState==true" class="navbar-nav mb-2 mb-lg-0">
-    <li class="nav-item">
+    <li class="nav-item p-2">
         <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -55,10 +55,10 @@
                 <li><a class="dropdown-item" href="#">{{ getCurrentUser().email }}</a></li>
                 <li class="row">
                     <div class="col-6">
-                        <a class="btn btn-primary ms-2" routerLink="/user/update/{{getCurrentUser().id}}">Güncelle</a>
+                        <a class="btn btn-primary p-2" routerLink="/user/update/{{getCurrentUser().id}}">Güncelle</a>
                     </div>
                     <div class="col-6">
-                        <a class="btn btn-primary me-2" (click)="logout()">Logout</a>
+                        <a class="btn btn-primary p-2" (click)="logout()">Logout</a>
                     </div>
                 </li>
             </ul>
