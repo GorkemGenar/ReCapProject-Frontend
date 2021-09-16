@@ -16,8 +16,8 @@ import { LoginModel } from 'src/app/models/loginModel';
 })
 export class AuthComponent implements OnInit {
 
-  loginState: boolean = false
   loginForm: FormGroup
+  registerForm: FormGroup
   user: UserModel = { id: 0, firstName: "", lastName: "", email: "", passwordHash: "", passwordSalt: "" }
   currentUserEmail: string = ''
 
@@ -25,18 +25,22 @@ export class AuthComponent implements OnInit {
     private authService: AuthService,
     private toastrService: ToastrService,
     private userService: UserService,
+    private router: Router,
     private localStorageService: LocalStorageService) { }
 
 
 
   ngOnInit(): void {
-    this.setCurrentCustomerEmail()
     this.createLoginForm()
-    this.checkLogin()
+    this.createRegisterForm()    
   }
 
-  checkLogin() {
-    this.loginState = this.authService.isAuthenticated()
+  isAuthenticated() {
+    if (this.authService.isAuthenticated()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   createLoginForm() {
@@ -46,10 +50,20 @@ export class AuthComponent implements OnInit {
     })
   }
 
+  createRegisterForm() {
+    this.registerForm = this.formBuilder.group({
+      firstName: ["", Validators.required],
+      lastName: ["", Validators.required],
+      email: ["", Validators.required],
+      password: ["", Validators.required]
+    })
+  }
+
   getUserByMail(email: string) {
     this.userService.getUserByEmail(email).subscribe(response => {
       this.user = response.data
       this.localStorageService.setCurrentUser(this.user);
+      location.reload();
     })
   }
 
@@ -63,14 +77,34 @@ export class AuthComponent implements OnInit {
     return this.localStorageService.getCurrentUser();
   }
 
+  setToken(data:any){
+    this.localStorageService.set("token", data)
+  }
+
   login() {
     if (this.loginForm.valid) {
       let loginModel: LoginModel = Object.assign({}, this.loginForm.value)
       this.authService.login(loginModel).subscribe(response => {
         this.toastrService.info(response.message)
+        this.setToken(response.data.token)
         this.getUserByMail(loginModel.email)
-        this.localStorageService.set("token", response.data.token)
-        location.reload();
+      }, responseError => {
+        this.toastrService.error(responseError.error, "Dikkat");
+      })
+    }
+    else {
+      this.toastrService.error("Girilen bilgileri kontrol edin.", "Dikkat")
+      this.toastrService.clear();
+    }
+  }
+
+  register() {
+    if (this.registerForm.valid) {
+      let registerModel = Object.assign({}, this.registerForm.value)
+      this.authService.register(registerModel).subscribe(response => {
+        this.toastrService.success("Artık giriş yapabilirsiniz.", "Başarılı")
+        this.toastrService.info(response.message, "Bilgi")
+        location.reload()
       }, responseError => {
         this.toastrService.error(responseError.error, "Dikkat");
       })
@@ -82,7 +116,7 @@ export class AuthComponent implements OnInit {
   }
 
   logout() {
-    if (this.loginState == true) {
+    if (this.isAuthenticated()) {
       this.localStorageService.remove("token")
       this.localStorageService.removeCurrentUser()
       window.location.reload()

@@ -1,12 +1,12 @@
-<ul *ngIf="loginState==false" class="navbar-nav mb-2 mb-lg-0">
+<ul *ngIf="!isAuthenticated()" class=" navbar-nav mb-2 mb-lg-0">
     <li class="nav-item p-2">
-        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Login</a>
+        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
         <!--LOGIN MODAL - Start -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <h5 class="modal-title" id="loginModalLabel">Login</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -14,11 +14,13 @@
                             <form [formGroup]="loginForm">
                                 <h1 class="h3 mb-3 fw-normal">Giriş Yap</h1>
                                 <div class="form-floating">
-                                    <input type="email" class="form-control" id="floatingInput" formControlName="email" placeholder="name@example.com">
+                                    <input type="email" class="form-control" id="floatingInput" formControlName="email"
+                                        placeholder="name@example.com">
                                     <label for="floatingInput">E Posta</label>
                                 </div>
                                 <div class="form-floating pt-2">
-                                    <input type="password" class="form-control" id="floatingPassword" formControlName="password" placeholder="Parola">
+                                    <input type="password" class="form-control" id="floatingPassword"
+                                        formControlName="password" placeholder="Parola">
                                     <label for="floatingPassword">Parola</label>
                                 </div>
                                 <div class="checkbox mb-3">
@@ -40,10 +42,54 @@
         <!--LOGIN MODAL - End -->
     </li>
     <li class="nav-item p-2">
-        <a class="btn btn-primary" href="/register">Register</a>
+        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register</a>
     </li>
+    <!--REGİSTER MODAL - START -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">Register</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <main class="form-signin text-center container">
+                        <form [formGroup]="registerForm">
+                            <h1 class="h5 mb-3 fw-normal">Register</h1>
+                            <div class="form-floating">
+                                <input formControlName="firstName" type="text" class="form-control" id="floatingInput"
+                                    placeholder="First Name" />
+                                <label for="floatingInput"> Name</label>
+                            </div>
+                            <div class="form-floating">
+                                <input formControlName="lastName" type="text" class="form-control mt-2" id="floatingInput"
+                                    placeholder="Last Name" />
+                                <label for="floatingInput">Last Name</label>
+                            </div>
+                            <div class="form-floating">
+                                <input formControlName="email" type="email" class="form-control mt-2" id="floatingInput"
+                                    placeholder="name@example.com" />
+                                <label for="floatingInput">Email </label>
+                            </div>
+                            <div class="form-floating">
+                                <input formControlName="password" type="password" class="form-control mt-2" id="floatingPassword"
+                                    placeholder="Password" />
+                                <label for="floatingPassword">Password</label>
+                            </div>
+                            <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+                        </form>
+                    </main>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" (click)="register()">Register</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--REGİSTER MODAL - END -->
 </ul>
-<ul *ngIf="loginState==true" class="navbar-nav mb-2 mb-lg-0">
+<ul *ngIf="isAuthenticated()" class="navbar-nav mb-2 mb-lg-0">
     <li class="nav-item p-2">
         <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"

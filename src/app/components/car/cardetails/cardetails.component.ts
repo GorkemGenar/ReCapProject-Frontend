@@ -142,8 +142,8 @@ export class CardetailsComponent implements OnInit {
     }
     else {
       this.authenticatedStatus = false
-      this.toastrService.warning("Önce giriş yapmalısınız", "Uyarı")
       this.router.navigate(["login"]);
+      this.toastrService.warning("Önce giriş yapmalısınız", "Uyarı")
     }
   }
 }
