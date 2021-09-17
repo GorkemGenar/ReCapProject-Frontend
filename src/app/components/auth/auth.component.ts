@@ -27,9 +27,7 @@ export class AuthComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private localStorageService: LocalStorageService) { }
-
-
-
+    
   ngOnInit(): void {
     this.createLoginForm()
     this.createRegisterForm()    

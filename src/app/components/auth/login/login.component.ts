@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.setCurrentCustomerEmail()
     this.createLoginForm()
+    console.log(this.user = this.localStorageService.getCurrentUser())
   }
 
   createLoginForm(){
@@ -43,8 +44,8 @@ export class LoginComponent implements OnInit {
       let loginModel:LoginModel = Object.assign({}, this.loginForm.value)
       this.authService.login(loginModel).subscribe(response => {
         this.toastrService.info(response.message)
-        this.getUserByMail(loginModel.email)
         this.localStorageService.set("token", response.data.token)
+        this.getUserByMail(loginModel.email)
         this.router.navigate(["/"])
       },responseError =>{
         this.toastrService.error(responseError.error,"Dikkat");
@@ -52,14 +53,14 @@ export class LoginComponent implements OnInit {
     }
     else{
       this.toastrService.error("Girilen bilgileri kontrol edin.", "Dikkat")
-      this.toastrService.clear();
     }
   }
 
   getUserByMail(email:string){
     this.userService.getUserByEmail(email).subscribe(response =>{
       this.user = response.data
-      this.localStorageService.setCurrentUser(this.user);      
+      this.localStorageService.setCurrentUser(this.user);
+      location.reload();      
     })
   }
 

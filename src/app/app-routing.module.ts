@@ -20,6 +20,7 @@ import { RegisterComponent } from './components/auth/register/register.component
 import { RentalComponent } from './components/rental/rental.component';
 import { LoginGuard } from './guards/login.guard';
 import { UserUpdateComponent } from './components/auth/user-update/user-update.component';
+import { ResetthepasswordComponent } from './components/auth/resetthepassword/resetthepassword.component';
 
 const routes: Routes = [
   {path:"", component:CarComponent},
@@ -65,6 +66,8 @@ const routes: Routes = [
   {path:"register", component:RegisterComponent},
 
   {path:"user/update/:userId", component:UserUpdateComponent},
+
+  {path:"resetthepassword", component:ResetthepasswordComponent},
 ];
 
 @NgModule({

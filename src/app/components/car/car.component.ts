@@ -21,7 +21,7 @@ export class CarComponent implements OnInit {
   cars: CarDetails[] = [];
   carDetail:CarDetails;
   currentCar: Car;
-  imgUrl ="https://localhost:44320/Images/"
+  imgUrl ="https://localhost:44363/Images/"
   defaultImage="default.jpg";
   dataLoaded = false;
   filterText:"";
@@ -65,27 +65,21 @@ export class CarComponent implements OnInit {
       }
     })
     //--> SAYFAYI 1 KERE RELOAD EDER.
-    if (!localStorage.getItem('foo')) { 
-      localStorage.setItem('foo', 'no reload') 
-      location.reload() 
-    } 
-    else {
-      localStorage.removeItem('foo') 
-    }
-  }
-
-  reloadThePageIfUserIsAuthenticated(){
-    if (this.authService.isAuthenticated){
-      window.location.reload();
-    }
+    // if (!localStorage.getItem('foo')) { 
+    //   localStorage.setItem('foo', 'no reload') 
+    //   location.reload() 
+    // } 
+    // else {
+    //   localStorage.removeItem('foo') 
+    // }
   }
 
   getCars(){
     this.carService.getCars().subscribe(respone =>{
       this.cars = respone.data;
+      console.log(this.cars);      
       this.dataLoaded = true;
     });
-    
   }
 
   getCarsByBrand(brandId:number){

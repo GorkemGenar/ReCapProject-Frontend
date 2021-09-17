@@ -2,7 +2,7 @@
     <span class="visually-hidden">Loading...</span>
 </div>
 <div *ngIf="dataLoaded==true" class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
         <select class="form-select" id="brandselect" [(ngModel)]="currentBrandId">
             <option [ngValue]="undefined" disabled selected> Select a Brand
             </option>
@@ -11,12 +11,12 @@
             </option>
         </select>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-5">
         <select class="form-select" id="colorselect" [(ngModel)]="currentColorId">
             <option [ngValue]="undefined" disabled selected> Select a Color
             </option>
-            <option *ngFor="let color of colors" [value]="color.colorId" [selected]="setCurrentColor(color.colorId)"> {{
-                color.colorName }}
+            <option *ngFor="let color of colors" [value]="color.colorId" [selected]="setCurrentColor(color.colorId)"> 
+                {{ color.colorName }}
             </option>
         </select>
     </div>
@@ -41,10 +41,10 @@
         </button>
     </div>
     <div class="col-md-1">
-        <button class="btn btn-primary" routerLink="/car">Clear</button>
+        <button class="btn btn-primary" routerLink="/">Clear</button>
     </div>
     <div class="col-md-12">
-        <table class="table">
+        <!-- <table class="table">
             <thead>
                 <tr>
                     <th scope="col">Car ID</th>
@@ -77,6 +77,42 @@
                     </td>
                 </tr>
             </tbody>
-        </table>
+        </table> -->
+        <div *ngIf="dataLoaded==true" class="row mt-2">
+            <div *ngFor="let car of cars | filterPipe:filterText" class="col-md-4 mb-3 pe-0">
+                <div class="card">
+                    <div class="card-header">
+                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="{{imgUrl}}{{car.carImage[0].imagePath}}" class="d-block w-100" alt="...">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{car.brandName}}</h5>
+                        <p class="card-text"><b>Color Name: </b>{{car.colorName}}</p>
+                        <p class="card-text"><b>Findex Rate: </b>{{car.minRequiredFindexRate}}</p>
+                        <p class="card-text"><b>Description: </b>{{car.description}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-primary float-end" routerLink="/car/car-details/{{car.carId}}">
+                            Detay
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

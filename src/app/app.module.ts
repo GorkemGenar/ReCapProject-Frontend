@@ -37,6 +37,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { UserUpdateComponent } from './components/auth/user-update/user-update.component';
+import { ResetthepasswordComponent } from './components/auth/resetthepassword/resetthepassword.component';
 
 @NgModule({
   declarations: [ 
@@ -66,7 +67,8 @@ import { UserUpdateComponent } from './components/auth/user-update/user-update.c
     LoginComponent,
     RegisterComponent,
     AuthComponent,
-    UserUpdateComponent
+    UserUpdateComponent,
+    ResetthepasswordComponent
   ],
   imports: [
     BrowserModule,

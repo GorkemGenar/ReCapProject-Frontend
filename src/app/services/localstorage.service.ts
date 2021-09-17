@@ -19,7 +19,6 @@ export class LocalStorageService {
 
   set(key: string, value: string) {
     this.localStorage.setItem(key, value);
-    location.reload();
   }
 
   remove(key: string) {
