@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/services/user.service';
 import { UserModel } from 'src/app/models/userModel';
 import { LoginModel } from 'src/app/models/loginModel';
+import { SocialAuthService, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
 
 @Component({
   selector: 'app-auth',
@@ -19,26 +20,24 @@ export class AuthComponent implements OnInit {
   loginForm: FormGroup
   registerForm: FormGroup
   user: UserModel = { id: 0, firstName: "", lastName: "", email: "", passwordHash: "", passwordSalt: "" }
+  userSocial: SocialUser;
+  isSignedInByGoogle: boolean = false;
   currentUserEmail: string = ''
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(
+    private formBuilder: FormBuilder,
     private authService: AuthService,
+    private socialAuthService: SocialAuthService,
     private toastrService: ToastrService,
     private userService: UserService,
     private router: Router,
     private localStorageService: LocalStorageService) { }
-    
+
   ngOnInit(): void {
     this.createLoginForm()
     this.createRegisterForm()    
-  }
-
-  isAuthenticated() {
-    if (this.authService.isAuthenticated()) {
-      return true;
-    } else {
-      return false;
-    }
+    console.log("Normal Auth: ",this.isAuthenticated());
+    console.log("Social Auth: ",this.isSignedInByGoogle);
   }
 
   createLoginForm() {
@@ -75,8 +74,16 @@ export class AuthComponent implements OnInit {
     return this.localStorageService.getCurrentUser();
   }
 
-  setToken(data:any){
+  setToken(data: any) {
     this.localStorageService.set("token", data)
+  }
+
+  isAuthenticated() {
+    if (this.authService.isAuthenticated()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   login() {
@@ -92,8 +99,19 @@ export class AuthComponent implements OnInit {
     }
     else {
       this.toastrService.error("Girilen bilgileri kontrol edin.", "Dikkat")
-      this.toastrService.clear();
     }
+  }
+
+  loginByGoogle(): void {
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+    this.socialAuthService.authState.subscribe((user) => {
+      this.userSocial = user;
+      this.localStorageService.set("token", user.idToken)
+      this.localStorageService.setCurrentUserFromGoogle(this.userSocial);
+      this.isSignedInByGoogle = (user != null);
+      console.log(this.userSocial);
+      location.reload();
+    });
   }
 
   register() {
@@ -109,7 +127,6 @@ export class AuthComponent implements OnInit {
     }
     else {
       this.toastrService.error("Girilen bilgileri kontrol edin.", "Dikkat")
-      this.toastrService.clear();
     }
   }
 
@@ -117,7 +134,14 @@ export class AuthComponent implements OnInit {
     if (this.isAuthenticated()) {
       this.localStorageService.remove("token")
       this.localStorageService.removeCurrentUser()
-      window.location.reload()
+      location.reload()
     }
+  }
+
+  logoutByGoogle(): void {
+    this.socialAuthService.signOut();
+    this.localStorageService.remove("token")
+    this.localStorageService.removeCurrentUser()
+    location.reload()
   }
 }

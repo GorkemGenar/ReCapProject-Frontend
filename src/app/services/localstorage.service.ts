@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { SocialUser } from 'angularx-social-login';
 import { UserModel } from '../models/userModel';
 
 @Injectable({
@@ -30,6 +31,10 @@ export class LocalStorageService {
   }
 
   setCurrentUser(currentUserValue: UserModel) {
+    localStorage.setItem(this.currentUser, JSON.stringify(currentUserValue));
+  }
+
+  setCurrentUserFromGoogle(currentUserValue: SocialUser) {
     localStorage.setItem(this.currentUser, JSON.stringify(currentUserValue));
   }
 

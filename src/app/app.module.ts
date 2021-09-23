@@ -39,6 +39,10 @@ import { AuthComponent } from './components/auth/auth.component';
 import { UserUpdateComponent } from './components/auth/user-update/user-update.component';
 import { ResetthepasswordComponent } from './components/auth/resetthepassword/resetthepassword.component';
 
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import { GoogleLoginProvider } from 'angularx-social-login';
+
+
 @NgModule({
   declarations: [ 
     AppComponent,
@@ -79,14 +83,34 @@ import { ResetthepasswordComponent } from './components/auth/resetthepassword/re
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       positionClass:"toast-bottom-right"
-    })
+    }),
+    SocialLoginModule
   ],
   providers: [
     DatePipe,
-    {provide:HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi:true}
-    //provide - Genel injection kısmı. Tüm serviceler için injection etmiş oluyoruz
-    //useClass - Hangi httpinterceptor'ın kullanılacağını belirtir
-    //multi - Multiple kullanıma izin verir
+    {
+      provide:HTTP_INTERCEPTORS, 
+      useClass:AuthInterceptor, 
+      multi:true
+      
+      //provide - Genel injection kısmı. Tüm serviceler için injection etmiş oluyoruz
+      //useClass - Hangi httpinterceptor'ın kullanılacağını belirtir
+      //multi - Multiple kullanıma izin verir
+    },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '34759584212-gfp1ggl756q0agpm9fa2so7upjbprivm.apps.googleusercontent.com'
+            )
+          }
+        ]
+      } as SocialAuthServiceConfig,
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -24,6 +24,10 @@ export class AuthService {
     return this.httpClient.post<SingleResponseModel<TokenModel>>(this.apiUrl+"login", loginModel)
   }
 
+  loginWithGoogle(){
+    return this.httpClient.get(this.apiUrl + "signin-google")
+  }
+
   register(registerModel:RegisterModel):Observable<SingleResponseModel<TokenModel>>{
     return this.httpClient.post<SingleResponseModel<TokenModel>>(this.apiUrl+"register",registerModel)
   }
