@@ -15,7 +15,8 @@
                     <a href="" routerLink="/resetthepassword">Şifremi unuttum</a>
                 </label>
             </div>
-            <button class="w-100 btn btn-lg btn-primary" (click)="login()">Giriş Yap</button>
+            <button class="w-100 btn btn-lg btn-primary" type="button" (click)="loginByGoogle()" >Signin with Google</button>
+            <button class="w-100 btn btn-lg btn-primary mt-2" (click)="login()">Giriş Yap</button>
             <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
         </form>
     </main>
