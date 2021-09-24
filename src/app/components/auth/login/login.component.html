@@ -1,4 +1,4 @@
-<body class="text-center container">
+<div class="text-center container">
     <main class="form-signin">
         <form [formGroup]="loginForm">
             <h1 class="h3 mb-3 fw-normal">Giriş Yap</h1>
@@ -15,9 +15,9 @@
                     <a href="" routerLink="/resetthepassword">Şifremi unuttum</a>
                 </label>
             </div>
-            <button class="w-100 btn btn-lg btn-primary" type="button" (click)="loginByGoogle()" >Signin with Google</button>
-            <button class="w-100 btn btn-lg btn-primary mt-2" (click)="login()">Giriş Yap</button>
+            <button class="w-100 btn btn-primary" type="button" (click)="loginByGoogle()">Google Hesabı ile Gir <i class="bi bi-google"></i></button>
+            <button class="w-100 btn btn-primary mt-2" (click)="login()">Giriş Yap <i class="bi bi-box-arrow-in-right"></i></button>
             <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
         </form>
     </main>
-</body>
+</div>

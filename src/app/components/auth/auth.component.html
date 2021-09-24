@@ -1,6 +1,6 @@
 <ul *ngIf="!isAuthenticated() && isSignedInByGoogle == false" class=" navbar-nav mb-2 pe-4 mb-lg-0">
     <li class="nav-item p-2">
-        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
+        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login <i class="bi bi-box-arrow-in-right"></i></a>
         <!--LOGIN MODAL - Start -->
         <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -33,9 +33,11 @@
                         </main>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" (click)="loginByGoogle()" class="btn btn-primary">Signin with Google</button>
-                        <button type="button" class="btn btn-primary" (click)="login()">Giriş Yap</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close <i class="bi bi-x-circle"></i></button>
+                        <button type="button" (click)="loginByGoogle()" class="btn btn-primary">
+                            Signin by Google <i class="bi bi-google"></i>
+                        </button>
+                        <button type="button" class="btn btn-primary" (click)="login()">Giriş Yap <i class="bi bi-box-arrow-in-right"></i></button>
                     </div>
                 </div>
             </div>
@@ -43,7 +45,7 @@
         <!--LOGIN MODAL - End -->
     </li>
     <li class="nav-item p-2">
-        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register</a>
+        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register <i class="bi bi-plus-circle"></i></a>
     </li>
     <!--REGİSTER MODAL - START -->
     <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
@@ -82,8 +84,8 @@
                     </main>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button class="btn btn-primary" (click)="register()">Register</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close <i class="bi bi-x-circle"></i></button>
+                    <button class="btn btn-primary" (click)="register()">Register <i class="bi bi-plus-circle"></i></button>
                 </div>
             </div>
         </div>
@@ -95,17 +97,17 @@
         <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                {{ getCurrentUser().firstName }} {{ getCurrentUser().lastName }}
+                <i class="bi bi-person-circle"></i> {{ getCurrentUser().firstName }} {{ getCurrentUser().lastName }}
             </button>
             <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton1">
                 <li><a class="dropdown-item" href="#">{{ getCurrentUser().firstName }} {{ getCurrentUser().lastName }}</a></li>
                 <li><a class="dropdown-item" href="#">{{ getCurrentUser().email }}</a></li>
                 <li class="row">
                     <div class="col-6">
-                        <a class="btn btn-primary p-2" routerLink="/user/update/{{getCurrentUser().id}}">Güncelle</a>
+                        <a class="btn btn-primary p-2" routerLink="/user/update/{{getCurrentUser().id}}">Güncelle <i class="bi bi-arrow-repeat"></i></a>
                     </div>
                     <div class="col-6">
-                        <a class="btn btn-primary p-2" (click)="logout()">Logout</a>
+                        <a class="btn btn-primary p-2" (click)="logout()">Logout <i class="bi bi-box-arrow-left"></i></a>
                     </div>
                 </li>
             </ul>
@@ -117,7 +119,7 @@
         <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                {{ userSocial.name}}
+                <i class="bi bi-person-circle"></i> {{ userSocial.name}}
             </button>
             <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton1">
                 <li><a class="dropdown-item" href="#">{{ userSocial.name}}</a></li>

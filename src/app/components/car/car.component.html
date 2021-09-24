@@ -21,27 +21,29 @@
         </select>
     </div>
     <div class="col-md-1" *ngIf="!currentBrandId && currentColorId">
-        <button class="btn btn-primary" routerLink="/car/color/{{ currentColorId }}">
-            Filter
+        <button class="btn btn-primary w-100" routerLink="/car/color/{{ currentColorId }}">
+            Filter <i class="bi bi-filter-circle"></i>
         </button>
     </div>
-    <div class="col-md-1" *ngIf="!currentColorId && currentBrandId">
-        <button class="btn btn-primary" routerLink="/car/brand/{{ currentBrandId }}">
-            Filter
+    <div class="col-md-2" *ngIf="!currentColorId && currentBrandId">
+        <button class="btn btn-primary w-100" routerLink="/car/brand/{{ currentBrandId }}">
+            Filter <i class="bi bi-filter-circle"></i>
         </button>
     </div>
-    <div class="col-md-1" *ngIf="!currentColorId && !currentBrandId">
-        <button (click)="getCarForBrandAndColor(currentBrandId,currentColorId)" class="btn btn-primary">
-            Filter
+    <div class="col-md-2 " *ngIf="!currentColorId && !currentBrandId">
+        <button (click)="getCarForBrandAndColor(currentBrandId,currentColorId)" class="btn btn-primary w-100">
+            Filter <i class="bi bi-filter-circle"></i>
         </button>
     </div>
     <div class="col-md-1" *ngIf="currentColorId && currentBrandId">
-        <button class="btn btn-primary" routerLink="/car/brand/{{ currentBrandId }}/color/{{ currentColorId }}">
-            Filter
+        <button class="btn btn-primary w-100" routerLink="/car/brand/{{ currentBrandId }}/color/{{ currentColorId }}">
+            Filter <i class="bi bi-filter-circle"></i>
         </button>
     </div>
-    <div class="col-md-1">
-        <button class="btn btn-primary" routerLink="/">Clear</button>
+    <div class="col-md-2">
+        <button class="btn btn-primary w-100" routerLink="/">
+            Clear <i class="bi bi-x-circle"></i>
+        </button>
     </div>
     <div class="col-md-12">
         <!-- <table class="table">
@@ -108,7 +110,7 @@
                     </div>
                     <div class="card-footer">
                         <a class="btn btn-primary float-end" routerLink="/car/car-details/{{car.carId}}">
-                            Detay
+                            Detay <i class="bi bi-search"></i>
                         </a>
                     </div>
                 </div>
