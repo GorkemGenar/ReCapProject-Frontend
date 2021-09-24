@@ -2,7 +2,7 @@
     <span class="visually-hidden">Loading...</span>
 </div>
 <div *ngIf="dataLoaded==true" class="row">
-    <div class="col-md-5">
+    <div class="col-md-4">
         <select class="form-select" id="brandselect" [(ngModel)]="currentBrandId">
             <option [ngValue]="undefined" disabled selected> Select a Brand
             </option>
@@ -11,7 +11,7 @@
             </option>
         </select>
     </div>
-    <div class="col-md-5">
+    <div class="col-md-4">
         <select class="form-select" id="colorselect" [(ngModel)]="currentColorId">
             <option [ngValue]="undefined" disabled selected> Select a Color
             </option>
@@ -78,7 +78,7 @@
                 </tr>
             </tbody>
         </table> -->
-        <div *ngIf="dataLoaded==true" class="row mt-2">
+        <div *ngIf="dataLoaded==true" class="row mt-2 card-car-list">
             <div *ngFor="let car of cars | filterPipe:filterText" class="col-md-4 mb-3 pe-0">
                 <div class="card">
                     <div class="card-header">
@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">{{car.brandName}}</h5>
+                        <p class="card-title">{{car.brandName}}</p>
                         <p class="card-text"><b>Color Name: </b>{{car.colorName}}</p>
                         <p class="card-text"><b>Findex Rate: </b>{{car.minRequiredFindexRate}}</p>
                         <p class="card-text"><b>Description: </b>{{car.description}}</p>

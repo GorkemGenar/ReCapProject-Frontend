@@ -1,4 +1,4 @@
-<ul *ngIf="!isAuthenticated() && isSignedInByGoogle == false" class=" navbar-nav mb-2 mb-lg-0">
+<ul *ngIf="!isAuthenticated() && isSignedInByGoogle == false" class=" navbar-nav mb-2 pe-4 mb-lg-0">
     <li class="nav-item p-2">
         <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
         <!--LOGIN MODAL - Start -->
@@ -90,7 +90,7 @@
     </div>
     <!--REGİSTER MODAL - END -->
 </ul>
-<ul *ngIf="isAuthenticated() && isSignedInByGoogle == false" class="navbar-nav mb-2 mb-lg-0">
+<ul *ngIf="isAuthenticated() && isSignedInByGoogle == false" class="navbar-nav mb-2 pe-4 mb-lg-0">
     <li class="nav-item p-2">
         <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
@@ -112,7 +112,7 @@
         </div>
     </li>
 </ul>
-<ul *ngIf="isAuthenticated() && isSignedInByGoogle === true" class="navbar-nav mb-2 mb-lg-0">
+<ul *ngIf="isAuthenticated() && isSignedInByGoogle === true" class="navbar-nav mb-2 pe-4 mb-lg-0">
     <li class="nav-item p-2">
         <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"

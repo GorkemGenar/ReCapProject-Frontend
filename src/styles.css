@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+
+html{
+    font-size: 0.79rem !important;
+}
+
+.card-body, .card-header, .card-footer{
+    padding: 0.4375rem !important;
+}
+
+.card-body p{
+    margin: 0.425rem !important;
+}
+
+.card-title{
+    font-size: 1.3rem !important;
+    font-weight: 700;
+}
