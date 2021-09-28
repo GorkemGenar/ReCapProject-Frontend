@@ -1,10 +1,10 @@
 <div *ngIf="dataLoaded==false" class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
+    <span class="visually-hidden">Yükleniyor...</span>
 </div>
 <div *ngIf="dataLoaded==true" class="row">
     <div class="col-md-4">
         <select class="form-select" id="brandselect" [(ngModel)]="currentBrandId">
-            <option [ngValue]="undefined" disabled selected> Select a Brand
+            <option [ngValue]="undefined" disabled selected>Filtreleme için marka seçiniz...
             </option>
             <option *ngFor="let brand of brands" [value]="brand.brandId" [selected]="setCurrentBrand(brand.brandId)"> {{
                 brand.brandName }}
@@ -13,7 +13,7 @@
     </div>
     <div class="col-md-4">
         <select class="form-select" id="colorselect" [(ngModel)]="currentColorId">
-            <option [ngValue]="undefined" disabled selected> Select a Color
+            <option [ngValue]="undefined" disabled selected>Filtreleme için renk seçiniz...
             </option>
             <option *ngFor="let color of colors" [value]="color.colorId" [selected]="setCurrentColor(color.colorId)"> 
                 {{ color.colorName }}
@@ -22,27 +22,27 @@
     </div>
     <div class="col-md-1" *ngIf="!currentBrandId && currentColorId">
         <button class="btn btn-primary w-100" routerLink="/car/color/{{ currentColorId }}">
-            Filter <i class="bi bi-filter-circle"></i>
+            Filtrele<i class="bi bi-filter-circle"></i>
         </button>
     </div>
     <div class="col-md-2" *ngIf="!currentColorId && currentBrandId">
         <button class="btn btn-primary w-100" routerLink="/car/brand/{{ currentBrandId }}">
-            Filter <i class="bi bi-filter-circle"></i>
+            Filtrele <i class="bi bi-filter-circle"></i>
         </button>
     </div>
     <div class="col-md-2 " *ngIf="!currentColorId && !currentBrandId">
         <button (click)="getCarForBrandAndColor(currentBrandId,currentColorId)" class="btn btn-primary w-100">
-            Filter <i class="bi bi-filter-circle"></i>
+            Filtrele <i class="bi bi-filter-circle"></i>
         </button>
     </div>
     <div class="col-md-1" *ngIf="currentColorId && currentBrandId">
         <button class="btn btn-primary w-100" routerLink="/car/brand/{{ currentBrandId }}/color/{{ currentColorId }}">
-            Filter <i class="bi bi-filter-circle"></i>
+            Filtrele <i class="bi bi-filter-circle"></i>
         </button>
     </div>
     <div class="col-md-2">
         <button class="btn btn-primary w-100" routerLink="/">
-            Clear <i class="bi bi-x-circle"></i>
+            Sıfırla <i class="bi bi-x-circle"></i>
         </button>
     </div>
     <div class="col-md-12">
@@ -93,20 +93,20 @@
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
                                 data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
+                                <span class="visually-hidden">Geri</span>
                             </button>
                             <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
                                 data-bs-slide="next">
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
+                                <span class="visually-hidden">İleri</span>
                             </button>
                         </div>
                     </div>
                     <div class="card-body">
                         <p class="card-title">{{car.brandName}}</p>
-                        <p class="card-text"><b>Color Name: </b>{{car.colorName}}</p>
-                        <p class="card-text"><b>Findex Rate: </b>{{car.minRequiredFindexRate}}</p>
-                        <p class="card-text"><b>Description: </b>{{car.description}}</p>
+                        <p class="card-text"><b>Renk: </b>{{car.colorName}}</p>
+                        <p class="card-text"><b>Findex Puanı: </b>{{car.minRequiredFindexRate}}</p>
+                        <p class="card-text"><b>Açıklama: </b>{{car.description}}</p>
                     </div>
                     <div class="card-footer">
                         <a class="btn btn-primary float-end" routerLink="/car/car-details/{{car.carId}}">

@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h5 class="title">Car Update</h5>
+                <h5 class="title">Araba Bilgileri Güncelleme</h5>
             </div>
             <div class="card-body">
                 <form [formGroup]="carUpdateForm">
@@ -10,14 +10,14 @@
                         <input class="form-control m-2" type="text" id="carId" formControlName="carId" DISABLED/>
                         <select class="form-select m-2" id="brandselect" [(ngModel)]=currentBrandId formControlName="brandId">
                             <option [ngValue]="undefined" disabled selected> 
-                                Select a Brand
+                                Araç için bir marka seçinz. 
                             </option>
                             <option *ngFor="let brand of brands"
                                     [ngValue]="brand.brandId"> {{ brand.brandName }}
                             </option>
                         </select>
                         <select class="form-select m-2" id="colorselect" [(ngModel)]=currentColorId formControlName="colorId">
-                            <option [ngValue]="undefined" disabled selected> Select a Color
+                            <option [ngValue]="undefined" disabled selected> Araç için bir renk seçinz.
                             </option>
                             <option *ngFor="let color of colors"
                                     [ngValue]="color.colorId"> {{ color.colorName }}
