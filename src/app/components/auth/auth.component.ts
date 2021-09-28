@@ -9,6 +9,8 @@ import { UserService } from 'src/app/services/user.service';
 import { UserModel } from 'src/app/models/userModel';
 import { LoginModel } from 'src/app/models/loginModel';
 import { SocialAuthService, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
+import { RegisterBySocialModel } from 'src/app/models/registerBySocialModel';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-auth',
@@ -37,7 +39,7 @@ export class AuthComponent implements OnInit {
     this.createLoginForm()
     this.createRegisterForm()    
     console.log("Normal Auth: ",this.isAuthenticated());
-    console.log("Social Auth: ",this.isSignedInByGoogle);
+    console.log("Social Auth: ",this.userSocial);
   }
 
   createLoginForm() {
@@ -128,6 +130,20 @@ export class AuthComponent implements OnInit {
     else {
       this.toastrService.error("Girilen bilgileri kontrol edin.", "Dikkat")
     }
+  }
+
+  registerByGoogle(){
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+    this.socialAuthService.authState.subscribe(user =>{
+      let userForRegister:RegisterBySocialModel = {id:user.id, firstName:user.firstName, lastName:user.lastName, email:user.email}
+      console.log(userForRegister);
+      console.log(user);      
+      this.authService.registerByGoogle(userForRegister).subscribe(response =>{
+        this.toastrService.success(response.message, "Başarılı")
+      },responseError =>{
+        this.toastrService.error(responseError.error, "Hata")
+      })
+    })
   }
 
   logout() {

@@ -1,28 +1,37 @@
 <main class="form-signin text-center container">
     <form [formGroup]="registerForm">
-        <h1 class="h5 mb-3 fw-normal">Register</h1>
+        <h1 class="h5 mb-3 fw-normal">Kayıt Ol</h1>
         <div class="form-floating">
             <input formControlName="firstName" type="text" class="form-control" id="floatingInput" placeholder="First Name" />
-            <label for="floatingInput"> Name</label>
+            <label for="floatingInput">İsim</label>
         </div>
         <div class="form-floating">
             <input formControlName="lastName" type="text" class="form-control mt-2" id="floatingInput"
                 placeholder="Last Name" />
-            <label for="floatingInput">Last Name</label>
+            <label for="floatingInput">Soyisim</label>
         </div>
         <div class="form-floating">
             <input formControlName="email" type="email" class="form-control mt-2" id="floatingInput"
                 placeholder="name@example.com" />
-            <label for="floatingInput">Email </label>
+            <label for="floatingInput">Email</label>
         </div>
         <div class="form-floating">
             <input formControlName="password" type="password" class="form-control mt-2" id="floatingPassword"
                 placeholder="Password" />
-            <label for="floatingPassword">Password</label>
+            <label for="floatingPassword">Şifre</label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" (click)="register()">
-            Register  <i class="bi bi-plus-circle"></i>
-        </button>
+        <div class="row">
+            <div class="col-12">
+                <button class="btn btn-primary w-100"  (click)="registerByGoogle()" data-bs-dismiss="modal">
+                    Google Hesabı ile Kayıt Ol <i class="bi bi-plus-circle"></i>
+                </button>
+            </div>
+            <div class="col-12 mt-2">
+                <button class="btn btn-primary w-100" (click)="register()">
+                    Register  <i class="bi bi-plus-circle"></i>
+                </button>
+            </div>
+        </div>
         <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
     </form>
 </main>

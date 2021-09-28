@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginModel } from '../models/loginModel';
+import { RegisterBySocialModel } from '../models/registerBySocialModel';
 import { RegisterModel } from '../models/registerModel';
 import { ResponseModel } from '../models/responseModel';
 import { SingleResponseModel } from '../models/singleResponseModel';
@@ -30,6 +31,10 @@ export class AuthService {
 
   register(registerModel:RegisterModel):Observable<SingleResponseModel<TokenModel>>{
     return this.httpClient.post<SingleResponseModel<TokenModel>>(this.apiUrl+"register",registerModel)
+  }
+
+  registerByGoogle(registerModel:RegisterBySocialModel):Observable<SingleResponseModel<RegisterBySocialModel>>{
+    return this.httpClient.post<SingleResponseModel<RegisterBySocialModel>>(this.apiUrl+"registerbygoogle",registerModel)
   }
 
   update(updateModel:UpdateModel):Observable<SingleResponseModel<UserModel>>{
